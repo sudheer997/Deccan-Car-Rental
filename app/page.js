@@ -140,24 +140,29 @@ export default function App() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log('Login attempt with:', { username, password });
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
+      console.log('Response status:', res.status);
       const data = await res.json();
-      
+      console.log('Response data:', data);
+
       if (data.success) {
         setToken(data.data.token);
         setIsAdmin(true);
         localStorage.setItem('adminToken', data.data.token);
         toast({ title: 'Success', description: 'Logged in successfully' });
       } else {
+        console.error('Login failed:', data.error);
         toast({ title: 'Error', description: data.error, variant: 'destructive' });
       }
     } catch (error) {
-      toast({ title: 'Error', description: 'Login failed', variant: 'destructive' });
+      console.error('Login error:', error);
+      toast({ title: 'Error', description: 'Login failed: ' + error.message, variant: 'destructive' });
     }
   };
 
@@ -743,25 +748,94 @@ export default function App() {
                     id="startDate"
                     type="date"
                     value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
+                    onChange={(e) => {
+                      const selectedDate = e.target.value;
+                      setStartDate(selectedDate);
+                      // Automatically set end date to 30 days later (minimum rental period)
+                      if (selectedDate) {
+                        const start = new Date(selectedDate);
+                        const end = new Date(start);
+                        end.setDate(start.getDate() + 30);
+                        setEndDate(end.toISOString().split('T')[0]);
+                      }
+                    }}
                     min={new Date().toISOString().split('T')[0]}
                   />
+                  <p className="text-xs text-blue-600 mt-1">
+                    Minimum rental period: 30 days (monthly rental)
+                  </p>
                 </div>
                 <div>
-                  <Label htmlFor="endDate">End Date</Label>
+                  <Label htmlFor="endDate">End Date (minimum 30 days)</Label>
                   <Input
                     id="endDate"
                     type="date"
                     value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    min={startDate || new Date().toISOString().split('T')[0]}
+                    onChange={(e) => {
+                      const selectedEndDate = e.target.value;
+                      if (startDate) {
+                        const start = new Date(startDate);
+                        const end = new Date(selectedEndDate);
+                        const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+
+                        if (daysDiff < 30) {
+                          toast({
+                            title: 'Invalid Rental Period',
+                            description: 'Monthly rentals require a minimum of 30 days. End date has been adjusted.',
+                            variant: 'destructive'
+                          });
+                          // Set to minimum 30 days
+                          const minEnd = new Date(start);
+                          minEnd.setDate(start.getDate() + 30);
+                          setEndDate(minEnd.toISOString().split('T')[0]);
+                        } else {
+                          setEndDate(selectedEndDate);
+                        }
+                      } else {
+                        setEndDate(selectedEndDate);
+                      }
+                    }}
+                    min={startDate ? (() => {
+                      const minDate = new Date(startDate);
+                      minDate.setDate(minDate.getDate() + 30);
+                      return minDate.toISOString().split('T')[0];
+                    })() : new Date().toISOString().split('T')[0]}
                   />
+                  {startDate && endDate && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Rental period: {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days
+                    </p>
+                  )}
                 </div>
               </div>
-              {startDate && endDate && (
+              <div className="mt-6 flex gap-3">
+                <Button
+                  onClick={checkAvailability}
+                  disabled={!startDate || !endDate}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-6 text-lg"
+                  size="lg"
+                >
+                  Search Available Cars
+                </Button>
+                {(startDate || endDate) && (
+                  <Button
+                    onClick={() => {
+                      setStartDate('');
+                      setEndDate('');
+                      setAvailableCars([]);
+                    }}
+                    variant="outline"
+                    className="px-6 py-6"
+                    size="lg"
+                  >
+                    Clear
+                  </Button>
+                )}
+              </div>
+              {startDate && endDate && availableCars.length >= 0 && (
                 <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                   <p className="text-sm text-blue-800">
-                    Showing cars available from <strong>{new Date(startDate).toLocaleDateString()}</strong> to <strong>{new Date(endDate).toLocaleDateString()}</strong>
+                    Showing <strong>{availableCars.length}</strong> cars available from <strong>{new Date(startDate).toLocaleDateString()}</strong> to <strong>{new Date(endDate).toLocaleDateString()}</strong>
                   </p>
                 </div>
               )}
@@ -908,6 +982,7 @@ export default function App() {
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    placeholder="admin"
                     required
                   />
                 </div>
@@ -918,10 +993,17 @@ export default function App() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder="admin123"
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">Login</Button>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  onClick={() => console.log('Login button clicked!')}
+                >
+                  Login
+                </Button>
                 <Button
                   type="button"
                   variant="outline"
