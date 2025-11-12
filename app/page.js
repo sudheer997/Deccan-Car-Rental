@@ -276,16 +276,53 @@ export default function App() {
     }
   };
 
-  const handleReservationRequest = async (formData) => {
+  const handleReservationRequest = async (formData, retryCount = 0) => {
+    // Validation: Email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: 'Invalid Email',
+        description: 'Please enter a valid email address (e.g., user@example.com)',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    // Validation: Phone format (allows +, digits, spaces, hyphens, parentheses)
+    const phoneRegex = /^\+?[\d\s\-()]{10,}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast({
+        title: 'Invalid Phone Number',
+        description: 'Please enter a valid phone number (minimum 10 digits)',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    // Save form data to localStorage before submitting
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('pendingReservation', JSON.stringify(formData));
+    }
+
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const res = await fetch('/api/reservations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
       const data = await res.json();
 
       if (data.success) {
+        // Clear saved form data on success
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('pendingReservation');
+        }
         toast({ title: 'Success', description: 'Reservation request submitted successfully' });
         setShowReservationForm(false);
         setSelectedCar(null);
@@ -294,7 +331,39 @@ export default function App() {
         toast({ title: 'Error', description: data.error, variant: 'destructive' });
       }
     } catch (error) {
-      toast({ title: 'Error', description: 'Failed to submit reservation', variant: 'destructive' });
+      if (error.name === 'AbortError') {
+        // Timeout error - offer retry
+        toast({
+          title: 'Request Timeout',
+          description: 'The request took too long. Your data has been saved.',
+          action: retryCount < 2 ? (
+            <button
+              onClick={() => handleReservationRequest(formData, retryCount + 1)}
+              className="px-3 py-1 bg-white text-black rounded hover:bg-gray-200"
+            >
+              Retry
+            </button>
+          ) : null,
+          variant: 'destructive'
+        });
+      } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        // Network error - offer retry
+        toast({
+          title: 'Network Error',
+          description: 'Please check your connection. Your data has been saved.',
+          action: retryCount < 2 ? (
+            <button
+              onClick={() => handleReservationRequest(formData, retryCount + 1)}
+              className="px-3 py-1 bg-white text-black rounded hover:bg-gray-200"
+            >
+              Retry
+            </button>
+          ) : null,
+          variant: 'destructive'
+        });
+      } else {
+        toast({ title: 'Error', description: 'Failed to submit reservation', variant: 'destructive' });
+      }
     }
   };
 
@@ -1090,7 +1159,14 @@ export default function App() {
         <Tabs defaultValue="vehicles" className="flex gap-6">
           <TabsList className="flex flex-col h-fit w-48 space-y-1">
             <TabsTrigger value="vehicles" className="w-full justify-start">Vehicles</TabsTrigger>
-            <TabsTrigger value="reservations" className="w-full justify-start">Reservations</TabsTrigger>
+            <TabsTrigger value="reservations" className="w-full justify-start relative">
+              Reservations
+              {reservations.filter(r => r.status === 'open').length > 0 && (
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {reservations.filter(r => r.status === 'open').length}
+                </span>
+              )}
+            </TabsTrigger>
             <TabsTrigger value="rentals" className="w-full justify-start">Rentals</TabsTrigger>
             <TabsTrigger value="maintenance" className="w-full justify-start">Maintenance</TabsTrigger>
             <TabsTrigger value="payments" className="w-full justify-start">Payments</TabsTrigger>

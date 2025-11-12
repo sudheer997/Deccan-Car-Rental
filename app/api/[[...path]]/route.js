@@ -8,6 +8,51 @@ const DB_NAME = process.env.DB_NAME || 'car_rental_db';
 let cachedClient = null;
 let cachedDb = null;
 
+// Rate limiting: In-memory store for request tracking
+// Map structure: { ip: { count: number, resetTime: timestamp } }
+const rateLimitStore = new Map();
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
+const MAX_REQUESTS_PER_WINDOW = 5; // 5 requests per 15 minutes
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const record = rateLimitStore.get(ip);
+
+  if (!record || now > record.resetTime) {
+    // New window - reset counter
+    rateLimitStore.set(ip, {
+      count: 1,
+      resetTime: now + RATE_LIMIT_WINDOW
+    });
+    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1 };
+  }
+
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+    // Limit exceeded
+    const resetIn = Math.ceil((record.resetTime - now) / 1000 / 60); // minutes
+    return {
+      allowed: false,
+      remaining: 0,
+      resetIn
+    };
+  }
+
+  // Increment counter
+  record.count++;
+  rateLimitStore.set(ip, record);
+  return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - record.count };
+}
+
+// Cleanup old entries every hour
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, record] of rateLimitStore.entries()) {
+    if (now > record.resetTime) {
+      rateLimitStore.delete(ip);
+    }
+  }
+}, 60 * 60 * 1000);
+
 async function connectToDatabase() {
   if (cachedClient && cachedDb) {
     return { client: cachedClient, db: cachedDb };
@@ -251,6 +296,17 @@ export async function POST(request) {
 
     // Public reservation request
     if (path === '/reservations') {
+      // Apply rate limiting for reservation submissions
+      const clientIp = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+      const rateLimitCheck = checkRateLimit(clientIp);
+
+      if (!rateLimitCheck.allowed) {
+        return NextResponse.json({
+          success: false,
+          error: `Too many requests. Please try again in ${rateLimitCheck.resetIn} minutes.`
+        }, { status: 429 });
+      }
+
       const {
         customerName,
         email,
@@ -267,6 +323,18 @@ export async function POST(request) {
 
       if (!customerName || !email || !phone || !carId || !startDate || !endDate) {
         return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return NextResponse.json({ success: false, error: 'Invalid email format' }, { status: 400 });
+      }
+
+      // Validate phone format (minimum 10 digits)
+      const phoneRegex = /^\+?[\d\s\-()]{10,}$/;
+      if (!phoneRegex.test(phone)) {
+        return NextResponse.json({ success: false, error: 'Invalid phone number format' }, { status: 400 });
       }
 
       const car = await db.collection('cars').findOne({ _id: carId });
