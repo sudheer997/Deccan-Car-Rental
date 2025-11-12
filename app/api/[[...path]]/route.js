@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
+import { sendCustomerConfirmationEmail, sendAdminNotificationEmail } from '../../../lib/emailService';
 
 const MONGO_URL = process.env.MONGO_URL;
 const DB_NAME = process.env.DB_NAME || 'car_rental_db';
@@ -412,6 +413,37 @@ export async function POST(request) {
       };
 
       await db.collection('reservations').insertOne(reservation);
+
+      // Send email notifications (non-blocking - don't fail if emails fail)
+      try {
+        // Prepare email data
+        const emailData = {
+          customerName,
+          email,
+          phone,
+          carName: `${car.brand} ${car.model}`,
+          startDate: requestStart,
+          endDate: requestEnd,
+          message: message || '',
+          reservationNumber: reservation.reservationNumber
+        };
+
+        // Send customer confirmation email
+        sendCustomerConfirmationEmail(emailData).catch(err => {
+          console.error('Failed to send customer email:', err);
+        });
+
+        // Send admin notification email
+        sendAdminNotificationEmail(emailData).catch(err => {
+          console.error('Failed to send admin email:', err);
+        });
+
+        console.log(`Email notifications queued for reservation ${reservation.reservationNumber}`);
+      } catch (emailError) {
+        // Log error but don't fail the reservation
+        console.error('Email notification error:', emailError);
+      }
+
       return NextResponse.json({ success: true, data: reservation });
     }
 
