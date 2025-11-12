@@ -13,7 +13,21 @@ async function connectToDatabase() {
     return { client: cachedClient, db: cachedDb };
   }
 
-  const client = await MongoClient.connect(MONGO_URL);
+  // MongoDB connection options for serverless/production environments
+  const options = {
+    tls: true,
+    tlsAllowInvalidCertificates: false,
+    tlsAllowInvalidHostnames: false,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+    maxPoolSize: 10,
+    minPoolSize: 1,
+    retryWrites: true,
+    retryReads: true,
+    w: 'majority'
+  };
+
+  const client = await MongoClient.connect(MONGO_URL, options);
   const db = client.db(DB_NAME);
 
   cachedClient = client;
