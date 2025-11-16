@@ -8,14 +8,10 @@ cmds = ["yarn install --frozen-lockfile"]
 cmds = [
   "echo '=== Building Next.js application ==='",
   "yarn build",
-  "echo '=== Copying static files ==='",
-  "cp -rv .next/static .next/standalone/.next/ || echo 'Static copy failed'",
-  "cp -rv public .next/standalone/ || echo 'Public copy failed'",
-  "echo '=== Verifying standalone structure ==='",
-  "ls -la .next/standalone/",
-  "ls -la .next/standalone/.next/ || echo 'No .next in standalone'",
+  "echo '=== Making start script executable ==='",
+  "chmod +x start.sh",
   "echo '=== Build complete ==='"
 ]
 
 [start]
-cmd = "node .next/standalone/server.js"
+cmd = "bash start.sh"
