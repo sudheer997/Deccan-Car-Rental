@@ -7,7 +7,7 @@
     "dev:no-reload": "next dev --hostname 0.0.0.0 --port 3000",
     "dev:webpack": "next dev --hostname 0.0.0.0 --port 3000",
     "build": "next build",
-    "postbuild": "cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/ || xcopy /E /I .next\\static .next\\standalone\\.next\\static && xcopy /E /I public .next\\standalone\\public",
+    "postbuild": "cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
     "start": "node .next/standalone/server.js"
   },
   "dependencies": {
