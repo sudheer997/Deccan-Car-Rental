@@ -177,6 +177,108 @@ export async function GET(request) {
       return NextResponse.json({ success: true, data: availableCars });
     }
 
+    // Get all maintenance records (public)
+    if (path === '/maintenance') {
+      const maintenance = await db.collection('maintenance')
+        .aggregate([
+          {
+            $lookup: {
+              from: 'cars',
+              localField: 'vehicleId',
+              foreignField: '_id',
+              as: 'vehicleDetails'
+            }
+          },
+          { $unwind: { path: '$vehicleDetails', preserveNullAndEmptyArrays: true } },
+          { $sort: { plannedStartDate: -1 } }
+        ]).toArray();
+      return NextResponse.json({ success: true, data: maintenance });
+    }
+
+    // Get all repair orders (public)
+    if (path === '/repair-orders') {
+      const repairOrders = await db.collection('repairOrders')
+        .aggregate([
+          {
+            $lookup: {
+              from: 'cars',
+              localField: 'vehicleId',
+              foreignField: '_id',
+              as: 'vehicleDetails'
+            }
+          },
+          { $unwind: { path: '$vehicleDetails', preserveNullAndEmptyArrays: true } },
+          { $sort: { dateIn: -1 } }
+        ]).toArray();
+      return NextResponse.json({ success: true, data: repairOrders });
+    }
+
+    // Get financial analytics - earnings vs investments per vehicle (public)
+    if (path === '/financial-analytics') {
+      const vehicles = await db.collection('cars').find({}).toArray();
+
+      const analytics = await Promise.all(vehicles.map(async (vehicle) => {
+        // Get all rentals for this vehicle
+        const rentals = await db.collection('rentals')
+          .find({ carId: vehicle._id })
+          .toArray();
+
+        // Get all reservations for this vehicle
+        const reservations = await db.collection('reservations')
+          .find({ carId: vehicle._id, status: 'completed' })
+          .toArray();
+
+        // Calculate total earnings from rentals
+        const rentalEarnings = rentals.reduce((sum, rental) => {
+          return sum + (rental.totalPrice || 0);
+        }, 0);
+
+        // Calculate total earnings from reservations
+        const reservationEarnings = reservations.reduce((sum, reservation) => {
+          return sum + (reservation.totalRevenue || reservation.totalPrice || 0);
+        }, 0);
+
+        // Get maintenance/repair costs
+        const maintenanceCosts = await db.collection('maintenance')
+          .find({ vehicleId: vehicle._id })
+          .toArray();
+
+        const repairCosts = await db.collection('repairOrders')
+          .find({ vehicleId: vehicle._id })
+          .toArray();
+
+        const totalMaintenanceCost = maintenanceCosts.reduce((sum, m) => sum + (m.cost || 0), 0);
+        const totalRepairCost = repairCosts.reduce((sum, r) => sum + (r.totalAmount || 0), 0);
+
+        const totalEarnings = rentalEarnings + reservationEarnings;
+        const totalInvestment = (vehicle.purchasePrice || 0) + totalMaintenanceCost + totalRepairCost;
+        const netProfit = totalEarnings - totalInvestment;
+        const roi = totalInvestment > 0 ? ((netProfit / totalInvestment) * 100).toFixed(2) : 0;
+
+        return {
+          vehicleId: vehicle._id,
+          vehicleName: vehicle.name,
+          vehicleKey: vehicle.vehicleKey,
+          brand: vehicle.brand,
+          model: vehicle.model,
+          purchasePrice: vehicle.purchasePrice || 0,
+          purchaseDate: vehicle.purchaseDate || vehicle.createdAt,
+          totalEarnings: parseFloat(totalEarnings.toFixed(2)),
+          rentalEarnings: parseFloat(rentalEarnings.toFixed(2)),
+          reservationEarnings: parseFloat(reservationEarnings.toFixed(2)),
+          maintenanceCost: parseFloat(totalMaintenanceCost.toFixed(2)),
+          repairCost: parseFloat(totalRepairCost.toFixed(2)),
+          totalInvestment: parseFloat(totalInvestment.toFixed(2)),
+          netProfit: parseFloat(netProfit.toFixed(2)),
+          roi: parseFloat(roi),
+          rentalCount: rentals.length,
+          reservationCount: reservations.length
+        };
+      }));
+
+      return NextResponse.json({ success: true, data: analytics });
+    }
+
     // Admin routes - require authentication
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
