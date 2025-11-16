@@ -6,9 +6,15 @@ cmds = ["yarn install --frozen-lockfile"]
 
 [phases.build]
 cmds = [
+  "echo '=== Building Next.js application ==='",
   "yarn build",
-  "cp -r .next/static .next/standalone/.next/",
-  "cp -r public .next/standalone/"
+  "echo '=== Copying static files ==='",
+  "cp -rv .next/static .next/standalone/.next/ || echo 'Static copy failed'",
+  "cp -rv public .next/standalone/ || echo 'Public copy failed'",
+  "echo '=== Verifying standalone structure ==='",
+  "ls -la .next/standalone/",
+  "ls -la .next/standalone/.next/ || echo 'No .next in standalone'",
+  "echo '=== Build complete ==='"
 ]
 
 [start]
