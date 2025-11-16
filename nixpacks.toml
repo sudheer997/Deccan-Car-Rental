@@ -5,7 +5,11 @@ nixPkgs = ["nodejs", "yarn"]
 cmds = ["yarn install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["yarn build"]
+cmds = [
+  "yarn build",
+  "cp -r .next/static .next/standalone/.next/",
+  "cp -r public .next/standalone/"
+]
 
 [start]
 cmd = "node .next/standalone/server.js"
