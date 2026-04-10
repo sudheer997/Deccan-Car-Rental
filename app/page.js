@@ -30,8 +30,11 @@ export default function App() {
   const [showRentalDialog, setShowRentalDialog] = useState(false);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [editingCar, setEditingCar] = useState(null);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const today = new Date();
+  const defaultEnd = new Date(today);
+  defaultEnd.setDate(today.getDate() + 30);
+  const [startDate, setStartDate] = useState(today.toISOString().split('T')[0]);
+  const [endDate, setEndDate] = useState(defaultEnd.toISOString().split('T')[0]);
   const [availableCars, setAvailableCars] = useState([]);
   const [carImageFile, setCarImageFile] = useState(null);
   const [carImagePreview, setCarImagePreview] = useState('');
@@ -61,6 +64,14 @@ export default function App() {
       setIsAdmin(true);
     }
     fetchCars();
+    // Auto-check availability for default dates (today → +30 days)
+    const t = new Date();
+    const e = new Date(t);
+    e.setDate(t.getDate() + 30);
+    fetch(`/api/cars/availability?startDate=${t.toISOString().split('T')[0]}&endDate=${e.toISOString().split('T')[0]}`)
+      .then(r => r.json())
+      .then(d => { if (d.success) setAvailableCars(d.data); })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -849,7 +860,16 @@ export default function App() {
 
         {/* Hero */}
         <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent" />
+          {/* Antique car background */}
+          <div className="absolute inset-0">
+            <img
+              src="https://images.unsplash.com/photo-1534093607318-f025413f49cb?w=1600&q=80"
+              alt="Antique car"
+              className="w-full h-full object-cover object-center opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/50 to-slate-900/90" />
+          </div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent" />
           <div className="relative container mx-auto px-4 sm:px-6 py-14 sm:py-24 text-center">
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-5 sm:mb-6">
