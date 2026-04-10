@@ -828,8 +828,9 @@ export default function App() {
 
         {/* Top Bar */}
         <div className="bg-slate-900 border-b border-slate-800">
-          <div className="container mx-auto px-4 py-2 flex flex-wrap justify-between items-center gap-1 text-xs sm:text-sm text-slate-400">
-            <span>📍 Dallas, Texas — Serving DFW and surrounding areas</span>
+          <div className="container mx-auto px-4 py-2 flex justify-between items-center text-xs text-slate-400">
+            <span className="hidden sm:inline">📍 Dallas, Texas — Serving DFW and surrounding areas</span>
+            <span className="sm:hidden">📍 Dallas, TX</span>
             <span>📞 (214) 555-0100</span>
           </div>
         </div>
@@ -874,8 +875,8 @@ export default function App() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent" />
 
-          {/* Moving cars layer */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Moving cars layer — hidden on small screens to reduce clutter */}
+          <div className="hidden sm:block absolute inset-0 overflow-hidden pointer-events-none">
             {/* Road lines */}
             <div className="absolute bottom-0 left-0 right-0 h-[120px] bg-gradient-to-t from-slate-950/80 to-transparent" />
             <div className="absolute bottom-[52px] left-0 right-0 h-px bg-amber-500/20" />
@@ -955,34 +956,34 @@ export default function App() {
             </div>
           </div>
 
-          <div className="relative container mx-auto px-4 sm:px-6 py-14 sm:py-24 text-center">
+          <div className="relative container mx-auto px-4 sm:px-6 py-10 sm:py-24 text-center">
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-5 sm:mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
               {cars.filter(c => c.status === 'available').length} Vehicles Available Now
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight tracking-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight tracking-tight">
               Drive More.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Pay Less.</span>
             </h1>
-            <p className="text-base sm:text-lg text-slate-400 mb-8 sm:mb-10 max-w-xl mx-auto px-2">
+            <p className="text-sm sm:text-lg text-slate-400 mb-6 sm:mb-10 max-w-xl mx-auto px-2">
               Premium monthly car rentals in Dallas, TX. Flexible terms, zero commitment, no hidden fees.
             </p>
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-16">
-              <a href="#search" className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-6 sm:px-8 py-3 rounded-lg transition-all shadow-lg shadow-amber-500/20 text-sm">
+            <div className="flex justify-center gap-3 sm:gap-4 mb-8 sm:mb-16">
+              <a href="#search" className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 sm:px-8 py-2.5 sm:py-3 rounded-lg transition-all shadow-lg shadow-amber-500/20 text-sm">
                 Browse Fleet
               </a>
-              <a href="#why-us" className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 sm:px-8 py-3 rounded-lg transition-all text-sm">
+              <a href="#why-us" className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-5 sm:px-8 py-2.5 sm:py-3 rounded-lg transition-all text-sm">
                 Learn More
               </a>
             </div>
-            <div className="flex justify-center gap-6 sm:gap-12 text-center">
+            <div className="flex justify-center gap-8 sm:gap-12 text-center">
               {[
                 { value: `${cars.filter(c => c.status === 'available').length}+`, label: 'Cars Available' },
                 { value: '30', label: 'Day Minimum' },
                 { value: '24/7', label: 'Support' },
               ].map((stat, i) => (
                 <div key={i}>
-                  <p className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</p>
+                  <p className="text-xl sm:text-3xl font-bold text-white">{stat.value}</p>
                   <p className="text-xs text-slate-500 mt-1">{stat.label}</p>
                 </div>
               ))}
@@ -995,7 +996,7 @@ export default function App() {
         <div id="search" className="bg-slate-900 border-b border-slate-800">
           <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10">
             <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-4">Check Availability</p>
-            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-end">
               <div className="flex-1">
                 <Label className="text-slate-400 text-xs mb-1.5 block">Pickup Date</Label>
                 <Input
@@ -1042,7 +1043,7 @@ export default function App() {
                   className="bg-slate-800 border-slate-700 text-white h-11"
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full sm:w-auto">
                 <Button
                   onClick={checkAvailability}
                   disabled={!startDate || !endDate}
@@ -1070,9 +1071,9 @@ export default function App() {
         </div>
 
         {/* Fleet Section */}
-        <div id="fleet" className="bg-slate-950 py-12 sm:py-20">
+        <div id="fleet" className="bg-slate-950 py-8 sm:py-20">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="flex items-end justify-between mb-8 sm:mb-10">
+            <div className="flex items-end justify-between mb-6 sm:mb-10">
               <div>
                 <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-2">Our Fleet</p>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -1089,7 +1090,7 @@ export default function App() {
                 <p className="text-sm mt-1">Try different dates or clear the search.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {displayCars.map((car) => (
                   <div
                     key={car._id}
