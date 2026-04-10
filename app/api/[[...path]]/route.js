@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { sendCustomerConfirmationEmail, sendAdminNotificationEmail } from '../../../lib/emailService';
 import * as XLSX from 'xlsx';
 
-const MONGO_URL = process.env.MONGO_URL;
-const DB_NAME = process.env.DB_NAME || 'car_rental_db';
+const MONGO_URL = (process.env.MONGO_URL || '').trim();
+const DB_NAME = (process.env.DB_NAME || 'car_rental_db').trim();
 
 let cachedClient = null;
 let cachedDb = null;
@@ -115,18 +115,6 @@ export async function GET(request) {
     const { db } = await connectToDatabase();
     const url = new URL(request.url);
     const path = url.pathname.replace('/api', '');
-
-    // Debug: show DB info
-    if (path === '/debug') {
-      const collections = await db.listCollections().toArray();
-      const carCount = await db.collection('cars').countDocuments();
-      return NextResponse.json({
-        dbName: db.databaseName,
-        collections: collections.map(c => c.name),
-        carCount,
-        mongoUrl: (process.env.MONGO_URL || '').substring(0, 40) + '...'
-      });
-    }
 
     // Get all cars (public)
     if (path === '/cars') {
