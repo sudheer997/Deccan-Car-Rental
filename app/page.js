@@ -815,7 +815,7 @@ export default function App() {
 
         {/* Top Bar */}
         <div className="bg-slate-900 border-b border-slate-800">
-          <div className="container mx-auto px-6 py-2 flex justify-between items-center text-sm text-slate-400">
+          <div className="container mx-auto px-4 py-2 flex flex-wrap justify-between items-center gap-1 text-xs sm:text-sm text-slate-400">
             <span>📍 Dallas, Texas — Serving DFW and surrounding areas</span>
             <span>📞 (214) 555-0100</span>
           </div>
@@ -823,23 +823,23 @@ export default function App() {
 
         {/* Navbar */}
         <nav className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800">
-          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500 flex items-center justify-center">
-                <Car className="h-5 w-5 text-slate-900" />
+          <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-amber-500 flex items-center justify-center flex-shrink-0">
+                <Car className="h-4 w-4 sm:h-5 sm:w-5 text-slate-900" />
               </div>
               <div>
-                <span className="text-xl font-bold text-white tracking-tight">Deccan Rentals</span>
+                <span className="text-base sm:text-xl font-bold text-white tracking-tight">Deccan Rentals</span>
                 <span className="hidden sm:inline text-xs text-slate-500 ml-2">Dallas, TX</span>
               </div>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 sm:gap-6">
               <a href="#fleet" className="hidden md:inline text-sm text-slate-400 hover:text-white transition-colors">Our Fleet</a>
               <a href="#why-us" className="hidden md:inline text-sm text-slate-400 hover:text-white transition-colors">Why Us</a>
               <Button
                 onClick={() => setIsAdmin(true)}
                 size="sm"
-                className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold"
+                className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold text-xs sm:text-sm px-3 sm:px-4"
               >
                 Admin Login
               </Button>
@@ -851,34 +851,34 @@ export default function App() {
         <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent" />
-          <div className="relative container mx-auto px-6 py-24 text-center">
-            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+          <div className="relative container mx-auto px-4 sm:px-6 py-14 sm:py-24 text-center">
+            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-5 sm:mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
               {cars.filter(c => c.status === 'available').length} Vehicles Available Now
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight tracking-tight">
               Drive More.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Pay Less.</span>
             </h1>
-            <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">
+            <p className="text-base sm:text-lg text-slate-400 mb-8 sm:mb-10 max-w-xl mx-auto px-2">
               Premium monthly car rentals in Dallas, TX. Flexible terms, zero commitment, no hidden fees.
             </p>
-            <div className="flex flex-wrap justify-center gap-4 mb-16">
-              <a href="#search" className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3 rounded-lg transition-all shadow-lg shadow-amber-500/20 text-sm">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-16">
+              <a href="#search" className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-6 sm:px-8 py-3 rounded-lg transition-all shadow-lg shadow-amber-500/20 text-sm">
                 Browse Fleet
               </a>
-              <a href="#why-us" className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-8 py-3 rounded-lg transition-all text-sm">
+              <a href="#why-us" className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 sm:px-8 py-3 rounded-lg transition-all text-sm">
                 Learn More
               </a>
             </div>
-            <div className="flex justify-center gap-12 text-center">
+            <div className="flex justify-center gap-6 sm:gap-12 text-center">
               {[
                 { value: `${cars.filter(c => c.status === 'available').length}+`, label: 'Cars Available' },
                 { value: '30', label: 'Day Minimum' },
                 { value: '24/7', label: 'Support' },
               ].map((stat, i) => (
                 <div key={i}>
-                  <p className="text-3xl font-bold text-white">{stat.value}</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</p>
                   <p className="text-xs text-slate-500 mt-1">{stat.label}</p>
                 </div>
               ))}
@@ -889,9 +889,9 @@ export default function App() {
 
         {/* Search Section */}
         <div id="search" className="bg-slate-900 border-b border-slate-800">
-          <div className="container mx-auto px-6 py-10">
+          <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10">
             <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-4">Check Availability</p>
-            <div className="flex flex-col md:flex-row gap-4 items-end">
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
               <div className="flex-1">
                 <Label className="text-slate-400 text-xs mb-1.5 block">Pickup Date</Label>
                 <Input
@@ -942,7 +942,7 @@ export default function App() {
                 <Button
                   onClick={checkAvailability}
                   disabled={!startDate || !endDate}
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold h-11 px-8"
+                  className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold h-11 px-6 sm:px-8 flex-1 sm:flex-none"
                 >
                   Search
                 </Button>
@@ -966,12 +966,12 @@ export default function App() {
         </div>
 
         {/* Fleet Section */}
-        <div id="fleet" className="bg-slate-950 py-20">
-          <div className="container mx-auto px-6">
-            <div className="flex items-end justify-between mb-10">
+        <div id="fleet" className="bg-slate-950 py-12 sm:py-20">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="flex items-end justify-between mb-8 sm:mb-10">
               <div>
                 <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-2">Our Fleet</p>
-                <h2 className="text-3xl font-bold text-white">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">
                   {startDate && endDate ? `${displayCars.length} Cars Available` : 'Available Vehicles'}
                 </h2>
               </div>
@@ -1060,10 +1060,10 @@ export default function App() {
         </div>
 
         {/* Why Us */}
-        <div id="why-us" className="bg-slate-900 border-t border-slate-800 py-20">
-          <div className="container mx-auto px-6 text-center">
+        <div id="why-us" className="bg-slate-900 border-t border-slate-800 py-12 sm:py-20">
+          <div className="container mx-auto px-4 sm:px-6 text-center">
             <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-2">Why Deccan Rentals</p>
-            <h2 className="text-3xl font-bold text-white mb-12">Everything you need, nothing you don't</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12">Everything you need, nothing you don't</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 { icon: '💳', title: 'Flexible Billing', desc: 'Month-to-month rentals. No long-term lock-in. Cancel with 30-day notice.' },
@@ -1081,8 +1081,8 @@ export default function App() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-slate-950 border-t border-slate-800 py-10">
-          <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-600">
+        <footer className="bg-slate-950 border-t border-slate-800 py-8 sm:py-10">
+          <div className="container mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs sm:text-sm text-slate-600 text-center md:text-left">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-md bg-amber-500 flex items-center justify-center">
                 <Car className="h-4 w-4 text-slate-900" />
@@ -1096,7 +1096,7 @@ export default function App() {
 
         {/* Reservation Dialog */}
         <Dialog open={showReservationForm} onOpenChange={setShowReservationForm}>
-          <DialogContent className="bg-slate-900 border border-slate-700 text-white">
+          <DialogContent className="bg-slate-900 border border-slate-700 text-white max-w-lg w-[95vw] max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-white text-xl">Reserve Your Car</DialogTitle>
               <DialogDescription className="text-slate-400">
@@ -1128,7 +1128,7 @@ export default function App() {
                     <Label className="text-slate-400 text-xs">Full Name</Label>
                     <Input name="customerName" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="John Smith" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-slate-400 text-xs">Email</Label>
                       <Input name="email" type="email" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="john@example.com" />
@@ -1138,7 +1138,7 @@ export default function App() {
                       <Input name="phone" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="(214) 555-0000" />
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-slate-400 text-xs">Start Date</Label>
                       <Input name="startDate" type="date" defaultValue={startDate} min={new Date().toISOString().split('T')[0]} required className="bg-slate-800 border-slate-700 text-white mt-1" />
@@ -1227,24 +1227,24 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800">Deccan Rentals</h1>
-          <Button onClick={handleLogout} variant="outline">
-            <LogOut className="mr-2 h-4 w-4" /> Logout
+        <div className="container mx-auto px-4 py-3 sm:py-4 flex justify-between items-center">
+          <h1 className="text-lg sm:text-2xl font-bold text-gray-800">Deccan Rentals Admin</h1>
+          <Button onClick={handleLogout} variant="outline" size="sm">
+            <LogOut className="mr-1 sm:mr-2 h-4 w-4" /> <span className="hidden sm:inline">Logout</span>
           </Button>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4 mb-6 sm:mb-8">
           <Card className="border-l-4 border-l-gray-400">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-gray-500 font-medium">Total Cars</span>
                 <Car className="h-4 w-4 text-gray-400" />
               </div>
-              <p className="text-3xl font-bold">{stats.totalCars || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold">{stats.totalCars || 0}</p>
             </CardContent>
           </Card>
           <Card className="border-l-4 border-l-green-500">
@@ -1253,7 +1253,7 @@ export default function App() {
                 <span className="text-xs text-gray-500 font-medium">Available</span>
                 <Check className="h-4 w-4 text-green-500" />
               </div>
-              <p className="text-3xl font-bold text-green-600">{stats.availableCars || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-green-600">{stats.availableCars || 0}</p>
             </CardContent>
           </Card>
           <Card className="border-l-4 border-l-blue-500">
@@ -1262,7 +1262,7 @@ export default function App() {
                 <span className="text-xs text-gray-500 font-medium">Rented</span>
                 <Settings2 className="h-4 w-4 text-blue-500" />
               </div>
-              <p className="text-3xl font-bold text-blue-600">{stats.rentedCars || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-blue-600">{stats.rentedCars || 0}</p>
             </CardContent>
           </Card>
           <Card className="border-l-4 border-l-orange-500">
@@ -1271,7 +1271,7 @@ export default function App() {
                 <span className="text-xs text-gray-500 font-medium">Pending Reservations</span>
                 <Calendar className="h-4 w-4 text-orange-500" />
               </div>
-              <p className="text-3xl font-bold text-orange-600">{stats.pendingReservations || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-orange-600">{stats.pendingReservations || 0}</p>
             </CardContent>
           </Card>
           <Card className="border-l-4 border-l-purple-500">
@@ -1280,7 +1280,7 @@ export default function App() {
                 <span className="text-xs text-gray-500 font-medium">Active Rentals</span>
                 <Users className="h-4 w-4 text-purple-500" />
               </div>
-              <p className="text-3xl font-bold text-purple-600">{stats.activeRentals || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-purple-600">{stats.activeRentals || 0}</p>
             </CardContent>
           </Card>
           <Card className="border-l-4 border-l-red-500">
@@ -1289,45 +1289,45 @@ export default function App() {
                 <span className="text-xs text-gray-500 font-medium">Due Payments</span>
                 <DollarSign className="h-4 w-4 text-red-500" />
               </div>
-              <p className="text-3xl font-bold text-red-600">{stats.pendingPayments || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-red-600">{stats.pendingPayments || 0}</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Main Tabs */}
-        <Tabs defaultValue="vehicles" className="flex gap-6">
-          <TabsList className="flex flex-col h-fit w-48 space-y-1">
-            <TabsTrigger value="vehicles" className="w-full justify-start">Vehicles</TabsTrigger>
-            <TabsTrigger value="reservations" className="w-full justify-start relative">
+        <Tabs defaultValue="vehicles" className="flex flex-col gap-4">
+          <TabsList className="flex flex-row flex-wrap h-fit w-full gap-1 overflow-x-auto">
+            <TabsTrigger value="vehicles" className="flex-1 min-w-fit text-xs sm:text-sm">Vehicles</TabsTrigger>
+            <TabsTrigger value="reservations" className="flex-1 min-w-fit text-xs sm:text-sm relative">
               Reservations
               {reservations.filter(r => r.status === 'open').length > 0 && (
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="ml-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 sm:h-5 sm:w-5 inline-flex items-center justify-center">
                   {reservations.filter(r => r.status === 'open').length}
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="rentals" className="w-full justify-start">Rentals</TabsTrigger>
-            <TabsTrigger value="maintenance" className="w-full justify-start">Maintenance</TabsTrigger>
-            <TabsTrigger value="payments" className="w-full justify-start">Payments</TabsTrigger>
-            <TabsTrigger value="analytics" className="w-full justify-start">Financial Analytics</TabsTrigger>
+            <TabsTrigger value="rentals" className="flex-1 min-w-fit text-xs sm:text-sm">Rentals</TabsTrigger>
+            <TabsTrigger value="maintenance" className="flex-1 min-w-fit text-xs sm:text-sm">Maintenance</TabsTrigger>
+            <TabsTrigger value="payments" className="flex-1 min-w-fit text-xs sm:text-sm">Payments</TabsTrigger>
+            <TabsTrigger value="analytics" className="flex-1 min-w-fit text-xs sm:text-sm">Analytics</TabsTrigger>
           </TabsList>
 
           <div className="flex-1 space-y-4">
 
           {/* Vehicles Tab */}
           <TabsContent value="vehicles" className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Vehicles</h2>
-              <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold">Vehicles</h2>
+              <div className="flex flex-wrap gap-2">
                 <a
                   href="/car-upload-template.xlsx"
                   download
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors text-green-700"
+                  className="inline-flex items-center gap-1 px-3 py-2 rounded-md text-xs sm:text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors text-green-700"
                 >
-                  <Upload className="h-4 w-4" /> Template
+                  <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Template
                 </a>
-                <label className={`cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors ${excelUploading ? 'opacity-50 pointer-events-none' : ''}`}>
-                  <FileSpreadsheet className="h-4 w-4 text-green-600" />
+                <label className={`cursor-pointer inline-flex items-center gap-1 px-3 py-2 rounded-md text-xs sm:text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors ${excelUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                  <FileSpreadsheet className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-600" />
                   {excelUploading ? 'Importing...' : 'Upload Excel'}
                   <input
                     type="file"
@@ -1337,59 +1337,42 @@ export default function App() {
                     disabled={excelUploading}
                   />
                 </label>
-                <Button onClick={() => {
+                <Button size="sm" onClick={() => {
                   setEditingCar(null);
                   setShowCarDialog(true);
                 }}>
-                  <Plus className="mr-2 h-4 w-4" /> Add Vehicle
+                  <Plus className="mr-1 h-4 w-4" /> Add Vehicle
                 </Button>
               </div>
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-2 mb-4 border-b">
-              <Button
-                variant={vehicleFilter === 'all' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setVehicleFilter('all')}
-              >
-                All
-              </Button>
-              <Button
-                variant={vehicleFilter === 'available' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setVehicleFilter('available')}
-              >
-                Available
-              </Button>
-              <Button
-                variant={vehicleFilter === 'dirty' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setVehicleFilter('dirty')}
-              >
-                Dirty
-              </Button>
-              <Button
-                variant={vehicleFilter === 'on-rent' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setVehicleFilter('on-rent')}
-              >
-                On Rent
-              </Button>
+            <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 border-b pb-2">
+              {['all', 'available', 'dirty', 'on-rent'].map(f => (
+                <Button
+                  key={f}
+                  variant={vehicleFilter === f ? 'default' : 'ghost'}
+                  size="sm"
+                  className="text-xs sm:text-sm h-7 sm:h-9"
+                  onClick={() => setVehicleFilter(f)}
+                >
+                  {f === 'all' ? 'All' : f === 'on-rent' ? 'On Rent' : f.charAt(0).toUpperCase() + f.slice(1)}
+                </Button>
+              ))}
             </div>
 
             {/* Search Bar */}
             <div className="mb-4">
               <Input
-                placeholder="Start typing a name..."
+                placeholder="Search vehicles..."
                 value={vehicleSearchQuery}
                 onChange={(e) => setVehicleSearchQuery(e.target.value)}
-                className="max-w-md"
+                className="w-full sm:max-w-md"
               />
             </div>
 
             {/* Vehicles Table */}
-            <div className="border rounded-lg overflow-auto">
+            <div className="border rounded-lg overflow-x-auto w-full">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -1593,20 +1576,18 @@ export default function App() {
 
           {/* Reservations Tab */}
           <TabsContent value="reservations" className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Reservations</h2>
-              <div className="flex gap-2">
-                <Button variant="outline">
-                  Availability Check
-                </Button>
-                <Button onClick={() => setShowEditReservationDialog(true)}>
-                  <Plus className="mr-2 h-4 w-4" /> New Reservation
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold">Reservations</h2>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline" size="sm">Availability Check</Button>
+                <Button size="sm" onClick={() => setShowEditReservationDialog(true)}>
+                  <Plus className="mr-1 h-4 w-4" /> New Reservation
                 </Button>
               </div>
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-2 mb-4 flex-wrap border-b">
+            <div className="flex gap-1 sm:gap-2 mb-4 flex-wrap border-b pb-2">
               <Button
                 variant={reservationFilter === 'all' ? 'default' : 'ghost'}
                 size="sm"
@@ -1675,15 +1656,15 @@ export default function App() {
             {/* Search Bar */}
             <div className="mb-4">
               <Input
-                placeholder="Start typing a name..."
+                placeholder="Search by name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="max-w-md"
+                className="w-full sm:max-w-md"
               />
             </div>
 
             {/* Reservations Table */}
-            <div className="border rounded-lg overflow-auto">
+            <div className="border rounded-lg overflow-x-auto w-full">
               <Table>
               <TableHeader>
                 <TableRow>
@@ -1879,12 +1860,13 @@ export default function App() {
 
           {/* Rentals Tab */}
           <TabsContent value="rentals" className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Rental Tracking</h2>
-              <Button onClick={() => setShowRentalDialog(true)}>
-                <Plus className="mr-2 h-4 w-4" /> Create Rental
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+              <h2 className="text-xl sm:text-2xl font-bold">Rental Tracking</h2>
+              <Button size="sm" onClick={() => setShowRentalDialog(true)}>
+                <Plus className="mr-1 h-4 w-4" /> Create Rental
               </Button>
             </div>
+            <div className="overflow-x-auto w-full border rounded-lg">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -1930,20 +1912,23 @@ export default function App() {
                 ))}
               </TableBody>
             </Table>
+            </div>
           </TabsContent>
 
           {/* Maintenance Tab */}
           <TabsContent value="maintenance" className="space-y-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Maintenance Management</h2>
-              <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold">Maintenance Management</h2>
+              <div className="flex flex-wrap gap-2">
                 <Button
+                  size="sm"
                   variant={maintenanceView === 'schedule' ? 'default' : 'outline'}
                   onClick={() => setMaintenanceView('schedule')}
                 >
-                  Maintenance Schedule
+                  Schedule
                 </Button>
                 <Button
+                  size="sm"
                   variant={maintenanceView === 'repairs' ? 'default' : 'outline'}
                   onClick={() => setMaintenanceView('repairs')}
                 >
@@ -1955,20 +1940,20 @@ export default function App() {
             {/* Maintenance Schedule View */}
             {maintenanceView === 'schedule' && (
               <>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
                   <Input
                     placeholder="Search by vehicle..."
-                    className="max-w-md"
+                    className="w-full sm:max-w-md"
                   />
-                  <Button onClick={() => {
+                  <Button size="sm" className="w-full sm:w-auto" onClick={() => {
                     setEditingMaintenance(null);
                     setShowMaintenanceDialog(true);
                   }}>
-                    <Plus className="mr-2 h-4 w-4" /> Schedule Maintenance
+                    <Plus className="mr-1 h-4 w-4" /> Schedule Maintenance
                   </Button>
                 </div>
 
-                <div className="border rounded-lg overflow-auto">
+                <div className="border rounded-lg overflow-x-auto w-full">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -2063,20 +2048,20 @@ export default function App() {
             {/* Repair Orders View */}
             {maintenanceView === 'repairs' && (
               <>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
                   <div className="flex gap-2">
                     <Button variant="ghost" size="sm">All</Button>
                     <Button variant="ghost" size="sm">Due This Week</Button>
                   </div>
-                  <Button onClick={() => {
+                  <Button size="sm" className="w-full sm:w-auto" onClick={() => {
                     setEditingRepairOrder(null);
                     setShowRepairOrderDialog(true);
                   }}>
-                    <Plus className="mr-2 h-4 w-4" /> Add Repair Order
+                    <Plus className="mr-1 h-4 w-4" /> Add Repair Order
                   </Button>
                 </div>
 
-                <div className="border rounded-lg overflow-auto">
+                <div className="border rounded-lg overflow-x-auto w-full">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -2209,12 +2194,13 @@ export default function App() {
 
           {/* Payments Tab */}
           <TabsContent value="payments" className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Payment Tracking</h2>
-              <Button onClick={() => setShowPaymentDialog(true)}>
-                <Plus className="mr-2 h-4 w-4" /> Add Payment
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+              <h2 className="text-xl sm:text-2xl font-bold">Payment Tracking</h2>
+              <Button size="sm" onClick={() => setShowPaymentDialog(true)}>
+                <Plus className="mr-1 h-4 w-4" /> Add Payment
               </Button>
             </div>
+            <div className="overflow-x-auto w-full border rounded-lg">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -2257,16 +2243,15 @@ export default function App() {
                 ))}
               </TableBody>
             </Table>
+            </div>
           </TabsContent>
 
           {/* Financial Analytics Tab */}
           <TabsContent value="analytics" className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Financial Analytics - Earnings vs Investments</h2>
-            </div>
+            <h2 className="text-xl sm:text-2xl font-bold">Financial Analytics</h2>
 
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-600">Total Earnings</CardTitle>
@@ -2316,7 +2301,7 @@ export default function App() {
             </div>
 
             {/* Analytics Table */}
-            <div className="border rounded-lg overflow-auto">
+            <div className="border rounded-lg overflow-x-auto w-full">
               <Table>
                 <TableHeader>
                   <TableRow>
