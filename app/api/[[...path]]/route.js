@@ -116,6 +116,18 @@ export async function GET(request) {
     const url = new URL(request.url);
     const path = url.pathname.replace('/api', '');
 
+    // Debug: show DB info
+    if (path === '/debug') {
+      const collections = await db.listCollections().toArray();
+      const carCount = await db.collection('cars').countDocuments();
+      return NextResponse.json({
+        dbName: db.databaseName,
+        collections: collections.map(c => c.name),
+        carCount,
+        mongoUrl: (process.env.MONGO_URL || '').substring(0, 40) + '...'
+      });
+    }
+
     // Get all cars (public)
     if (path === '/cars') {
       const cars = await db.collection('cars').find({}).sort({ createdAt: -1 }).toArray();
