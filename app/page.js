@@ -873,6 +873,88 @@ export default function App() {
           </div>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent" />
+
+          {/* Moving cars layer */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Road lines */}
+            <div className="absolute bottom-0 left-0 right-0 h-[120px] bg-gradient-to-t from-slate-950/80 to-transparent" />
+            <div className="absolute bottom-[52px] left-0 right-0 h-px bg-amber-500/20" />
+            <div className="absolute bottom-[88px] left-0 right-0 h-px border-t border-dashed border-white/10" />
+
+            {/* Cars going right — bottom lane */}
+            <div className="car-drive-r1 absolute bottom-[14px]">
+              <svg width="180" height="36" viewBox="0 0 180 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="16" width="140" height="16" rx="4" fill="#f59e0b" fillOpacity="0.7"/>
+                <rect x="40" y="6" width="80" height="14" rx="3" fill="#fbbf24" fillOpacity="0.6"/>
+                <circle cx="48" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <circle cx="132" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <rect x="148" y="20" width="16" height="6" rx="1" fill="#fef3c7" fillOpacity="0.9"/>
+                <rect x="16" y="22" width="8" height="4" rx="1" fill="#ef4444" fillOpacity="0.7"/>
+                <rect x="44" y="9" width="30" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.4"/>
+                <rect x="82" y="9" width="30" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.4"/>
+              </svg>
+            </div>
+            <div className="car-drive-r2 absolute bottom-[14px]">
+              <svg width="160" height="36" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="15" y="16" width="130" height="16" rx="4" fill="#64748b" fillOpacity="0.8"/>
+                <rect x="30" y="7" width="75" height="13" rx="3" fill="#94a3b8" fillOpacity="0.6"/>
+                <circle cx="40" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <circle cx="120" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <rect x="133" y="20" width="14" height="6" rx="1" fill="#fef3c7" fillOpacity="0.9"/>
+                <rect x="13" y="22" width="6" height="4" rx="1" fill="#ef4444" fillOpacity="0.7"/>
+                <rect x="34" y="10" width="28" height="8" rx="2" fill="#7dd3fc" fillOpacity="0.35"/>
+                <rect x="70" y="10" width="28" height="8" rx="2" fill="#7dd3fc" fillOpacity="0.35"/>
+              </svg>
+            </div>
+            <div className="car-drive-r3 absolute bottom-[14px]">
+              <svg width="200" height="36" viewBox="0 0 200 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="15" width="175" height="18" rx="5" fill="#78350f" fillOpacity="0.75"/>
+                <rect x="35" y="5" width="95" height="14" rx="3" fill="#92400e" fillOpacity="0.65"/>
+                <circle cx="50" cy="34" r="9" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <circle cx="150" cy="34" r="9" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <rect x="178" y="19" width="18" height="7" rx="1" fill="#fef3c7" fillOpacity="0.9"/>
+                <rect x="8" y="21" width="9" height="5" rx="1" fill="#ef4444" fillOpacity="0.6"/>
+                <rect x="39" y="8" width="35" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.3"/>
+                <rect x="85" y="8" width="35" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.3"/>
+              </svg>
+            </div>
+
+            {/* Cars going right — upper lane */}
+            <div className="car-drive-r4 absolute bottom-[60px]">
+              <svg width="150" height="30" viewBox="0 0 150 30" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.5">
+                <rect x="12" y="12" width="122" height="14" rx="3" fill="#475569"/>
+                <rect x="28" y="5" width="65" height="10" rx="2" fill="#64748b"/>
+                <circle cx="35" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
+                <circle cx="112" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
+                <rect x="125" y="15" width="12" height="5" rx="1" fill="#fef3c7" fillOpacity="0.8"/>
+              </svg>
+            </div>
+
+            {/* Cars going left — oncoming lane */}
+            <div className="car-drive-l1 absolute bottom-[60px]">
+              <svg width="160" height="30" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.45">
+                <rect x="14" y="12" width="130" height="14" rx="3" fill="#1d4ed8" fillOpacity="0.8"/>
+                <rect x="30" y="5" width="72" height="10" rx="2" fill="#3b82f6" fillOpacity="0.7"/>
+                <circle cx="38" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
+                <circle cx="122" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
+                <rect x="133" y="15" width="12" height="5" rx="1" fill="#fef3c7" fillOpacity="0.8"/>
+                <rect x="28" y="8" width="25" height="7" rx="1" fill="#bfdbfe" fillOpacity="0.35"/>
+                <rect x="62" y="8" width="25" height="7" rx="1" fill="#bfdbfe" fillOpacity="0.35"/>
+              </svg>
+            </div>
+            <div className="car-drive-l2 absolute bottom-[14px]">
+              <svg width="170" height="36" viewBox="0 0 170 36" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.4">
+                <rect x="16" y="16" width="138" height="16" rx="4" fill="#166534" fillOpacity="0.8"/>
+                <rect x="36" y="7" width="78" height="13" rx="3" fill="#16a34a" fillOpacity="0.65"/>
+                <circle cx="46" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <circle cx="126" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
+                <rect x="140" y="20" width="14" height="6" rx="1" fill="#fef3c7" fillOpacity="0.8"/>
+                <rect x="38" y="10" width="27" height="8" rx="2" fill="#bbf7d0" fillOpacity="0.3"/>
+                <rect x="74" y="10" width="27" height="8" rx="2" fill="#bbf7d0" fillOpacity="0.3"/>
+              </svg>
+            </div>
+          </div>
+
           <div className="relative container mx-auto px-4 sm:px-6 py-14 sm:py-24 text-center">
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-5 sm:mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />

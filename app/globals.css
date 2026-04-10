@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Moving cars animation */
+@keyframes drive-right {
+  0%   { transform: translateX(-220px); }
+  100% { transform: translateX(110vw); }
+}
+@keyframes drive-right-slow {
+  0%   { transform: translateX(-220px); }
+  100% { transform: translateX(110vw); }
+}
+@keyframes drive-left {
+  0%   { transform: translateX(110vw) scaleX(-1); }
+  100% { transform: translateX(-220px) scaleX(-1); }
+}
+
+.car-drive-r1  { animation: drive-right 12s linear infinite; }
+.car-drive-r2  { animation: drive-right 18s linear infinite 4s; }
+.car-drive-r3  { animation: drive-right 14s linear infinite 9s; }
+.car-drive-r4  { animation: drive-right 20s linear infinite 2s; }
+.car-drive-l1  { animation: drive-left 16s linear infinite 1s; }
+.car-drive-l2  { animation: drive-left 22s linear infinite 7s; }
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
