@@ -2,6 +2,7 @@ import { MongoClient } from 'mongodb';
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import { sendCustomerConfirmationEmail, sendAdminNotificationEmail } from '../../../lib/emailService';
+import * as XLSX from 'xlsx';
 
 const MONGO_URL = process.env.MONGO_URL;
 const DB_NAME = process.env.DB_NAME || 'car_rental_db';
@@ -365,6 +366,65 @@ export async function POST(request) {
     const { db } = await connectToDatabase();
     const url = new URL(request.url);
     const path = url.pathname.replace('/api', '');
+
+    // Handle Excel upload before parsing JSON (FormData request)
+    if (path === '/cars/upload-excel') {
+      const authHeader = request.headers.get('authorization');
+      if (!authHeader) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+      const user = verifyToken(authHeader.replace('Bearer ', ''));
+      if (!user) return NextResponse.json({ success: false, error: 'Invalid token' }, { status: 401 });
+
+      const formData = await request.formData();
+      const file = formData.get('file');
+      if (!file) return NextResponse.json({ success: false, error: 'No file uploaded' }, { status: 400 });
+
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const workbook = XLSX.read(buffer, { type: 'buffer' });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(sheet);
+
+      if (!rows.length) return NextResponse.json({ success: false, error: 'Excel file is empty' }, { status: 400 });
+
+      const cars = rows.map(row => ({
+        _id: uuidv4(),
+        vehicleKey: String(row['Vehicle Key'] || row['vehicleKey'] || `V${Date.now().toString().slice(-6)}`),
+        name: String(row['Name'] || row['name'] || ''),
+        model: String(row['Model'] || row['model'] || ''),
+        brand: String(row['Brand'] || row['brand'] || ''),
+        vin: String(row['VIN'] || row['vin'] || ''),
+        licenseNumber: String(row['License Number'] || row['licenseNumber'] || ''),
+        price: parseFloat(row['Price'] || row['price'] || 0),
+        purchasePrice: parseFloat(row['Purchase Price'] || row['purchasePrice'] || 0),
+        purchaseDate: row['Purchase Date'] ? new Date(row['Purchase Date']) : new Date(),
+        vehicleType: String(row['Vehicle Type'] || row['vehicleType'] || 'Car'),
+        vehicleClass: String(row['Vehicle Class'] || row['vehicleClass'] || 'Economic Manual'),
+        transmission: String(row['Transmission'] || row['transmission'] || 'Automatic'),
+        features: String(row['Features'] || row['features'] || '').split(',').map(f => f.trim()).filter(Boolean),
+        imageUrl: String(row['Image URL'] || row['imageUrl'] || ''),
+        specs: {
+          seats: parseInt(row['Seats'] || row['seats'] || 5),
+          fuel: String(row['Fuel'] || row['fuel'] || 'Gasoline'),
+          mileage: String(row['Mileage'] || row['mileage'] || 'N/A'),
+        },
+        status: 'available',
+        currentRenter: null,
+        currentRenterId: null,
+        currentLocation: String(row['Location'] || row['location'] || 'Dallas Office'),
+        odometer: parseInt(row['Odometer'] || row['odometer'] || 0),
+        fuelLevel: String(row['Fuel Level'] || row['fuelLevel'] || '8/8'),
+        telematicsConnected: false,
+        availableDate: new Date(),
+        lastLocationUpdate: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })).filter(c => c.name && c.model && c.brand && c.price);
+
+      if (!cars.length) return NextResponse.json({ success: false, error: 'No valid rows found. Ensure Name, Model, Brand, Price columns exist.' }, { status: 400 });
+
+      await db.collection('cars').insertMany(cars);
+      return NextResponse.json({ success: true, data: { inserted: cars.length, cars } });
+    }
+
     const body = await request.json();
 
     // Admin login

@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Car, Users, Calendar, DollarSign, LogOut, Plus, Edit, Trash2, Check, X, Eye, MoreVertical, Fuel, Gauge, Settings2, Armchair } from 'lucide-react';
+import { Car, Users, Calendar, DollarSign, LogOut, Plus, Edit, Trash2, Check, X, Eye, MoreVertical, Fuel, Gauge, Settings2, Armchair, Upload, FileSpreadsheet } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function App() {
@@ -51,6 +51,7 @@ export default function App() {
   const [editingRepairOrder, setEditingRepairOrder] = useState(null);
   const [maintenanceView, setMaintenanceView] = useState('schedule'); // 'schedule' or 'repairs'
   const [financialAnalytics, setFinancialAnalytics] = useState([]);
+  const [excelUploading, setExcelUploading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -778,6 +779,34 @@ export default function App() {
     }
   };
 
+  const handleExcelUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setExcelUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/cars/upload-excel', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast({ title: 'Success', description: `${data.data.inserted} car(s) imported successfully` });
+        fetchCars();
+        fetchDashboardData();
+      } else {
+        toast({ title: 'Import Failed', description: data.error, variant: 'destructive' });
+      }
+    } catch (err) {
+      toast({ title: 'Error', description: 'Failed to upload file', variant: 'destructive' });
+    } finally {
+      setExcelUploading(false);
+      e.target.value = '';
+    }
+  };
+
   // Customer Portal View
   if (!isAdmin) {
     const displayCars = startDate && endDate ? availableCars : cars.filter(car => car.status === 'available');
@@ -1289,12 +1318,32 @@ export default function App() {
           <TabsContent value="vehicles" className="space-y-4">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">Vehicles</h2>
-              <Button onClick={() => {
-                setEditingCar(null);
-                setShowCarDialog(true);
-              }}>
-                <Plus className="mr-2 h-4 w-4" /> Add Vehicle
-              </Button>
+              <div className="flex gap-2">
+                <a
+                  href="/car-upload-template.xlsx"
+                  download
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors text-green-700"
+                >
+                  <Upload className="h-4 w-4" /> Template
+                </a>
+                <label className={`cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors ${excelUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                  <FileSpreadsheet className="h-4 w-4 text-green-600" />
+                  {excelUploading ? 'Importing...' : 'Upload Excel'}
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls,.csv"
+                    className="hidden"
+                    onChange={handleExcelUpload}
+                    disabled={excelUploading}
+                  />
+                </label>
+                <Button onClick={() => {
+                  setEditingCar(null);
+                  setShowCarDialog(true);
+                }}>
+                  <Plus className="mr-2 h-4 w-4" /> Add Vehicle
+                </Button>
+              </div>
             </div>
 
             {/* Filter Tabs */}
