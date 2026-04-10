@@ -820,7 +820,9 @@ export default function App() {
 
   // Customer Portal View
   if (!isAdmin) {
-    const displayCars = startDate && endDate ? availableCars : cars.filter(car => car.status === 'available');
+    const displayCars = startDate && endDate
+      ? (availableCars.length > 0 ? availableCars : cars.filter(car => car.status === 'available'))
+      : cars.filter(car => car.status === 'available');
     return (
       <div className="min-h-screen bg-slate-950 text-white">
 
