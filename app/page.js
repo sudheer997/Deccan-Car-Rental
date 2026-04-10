@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Car, Users, Calendar, DollarSign, LogOut, Plus, Edit, Trash2, Check, X, Eye, MoreVertical } from 'lucide-react';
+import { Car, Users, Calendar, DollarSign, LogOut, Plus, Edit, Trash2, Check, X, Eye, MoreVertical, Fuel, Gauge, Settings2, Armchair } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function App() {
@@ -780,192 +780,304 @@ export default function App() {
 
   // Customer Portal View
   if (!isAdmin) {
+    const displayCars = startDate && endDate ? availableCars : cars.filter(car => car.status === 'available');
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-          <div className="container mx-auto px-4 py-16">
-            <div className="flex justify-between items-center mb-12">
-              <h1 className="text-4xl font-bold">Deccan Rentals</h1>
+      <div className="min-h-screen bg-slate-950 text-white">
+
+        {/* Top Bar */}
+        <div className="bg-slate-900 border-b border-slate-800">
+          <div className="container mx-auto px-6 py-2 flex justify-between items-center text-sm text-slate-400">
+            <span>📍 Dallas, Texas — Serving DFW and surrounding areas</span>
+            <span>📞 (214) 555-0100</span>
+          </div>
+        </div>
+
+        {/* Navbar */}
+        <nav className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800">
+          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-amber-500 flex items-center justify-center">
+                <Car className="h-5 w-5 text-slate-900" />
+              </div>
+              <div>
+                <span className="text-xl font-bold text-white tracking-tight">Deccan Rentals</span>
+                <span className="hidden sm:inline text-xs text-slate-500 ml-2">Dallas, TX</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-6">
+              <a href="#fleet" className="hidden md:inline text-sm text-slate-400 hover:text-white transition-colors">Our Fleet</a>
+              <a href="#why-us" className="hidden md:inline text-sm text-slate-400 hover:text-white transition-colors">Why Us</a>
               <Button
                 onClick={() => setIsAdmin(true)}
-                variant="outline"
-                className="bg-white text-blue-600 hover:bg-blue-50"
+                size="sm"
+                className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold"
               >
                 Admin Login
               </Button>
             </div>
-            <div className="text-center">
-              <h2 className="text-5xl font-bold mb-4">Premium Car Rentals</h2>
-              <p className="text-xl text-blue-100">Find your perfect ride for monthly rentals</p>
+          </div>
+        </nav>
+
+        {/* Hero */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent" />
+          <div className="relative container mx-auto px-6 py-24 text-center">
+            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+              {cars.filter(c => c.status === 'available').length} Vehicles Available Now
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight tracking-tight">
+              Drive More.<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Pay Less.</span>
+            </h1>
+            <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">
+              Premium monthly car rentals in Dallas, TX. Flexible terms, zero commitment, no hidden fees.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 mb-16">
+              <a href="#search" className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3 rounded-lg transition-all shadow-lg shadow-amber-500/20 text-sm">
+                Browse Fleet
+              </a>
+              <a href="#why-us" className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-8 py-3 rounded-lg transition-all text-sm">
+                Learn More
+              </a>
+            </div>
+            <div className="flex justify-center gap-12 text-center">
+              {[
+                { value: `${cars.filter(c => c.status === 'available').length}+`, label: 'Cars Available' },
+                { value: '30', label: 'Day Minimum' },
+                { value: '24/7', label: 'Support' },
+              ].map((stat, i) => (
+                <div key={i}>
+                  <p className="text-3xl font-bold text-white">{stat.value}</p>
+                  <p className="text-xs text-slate-500 mt-1">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
         </div>
 
-        {/* Date Selection Section */}
-        <div className="container mx-auto px-4 py-8">
-          <Card className="max-w-4xl mx-auto">
-            <CardHeader>
-              <CardTitle>Select Your Rental Dates</CardTitle>
-              <CardDescription>Choose your start and end dates to see available cars</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="startDate">Start Date</Label>
-                  <Input
-                    id="startDate"
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => {
-                      const selectedDate = e.target.value;
-                      setStartDate(selectedDate);
-                      // Automatically set end date to 30 days later (minimum rental period)
-                      if (selectedDate) {
-                        const start = new Date(selectedDate);
-                        const end = new Date(start);
-                        end.setDate(start.getDate() + 30);
-                        setEndDate(end.toISOString().split('T')[0]);
-                      }
-                    }}
-                    min={new Date().toISOString().split('T')[0]}
-                  />
-                  <p className="text-xs text-blue-600 mt-1">
-                    Minimum rental period: 30 days (monthly rental)
-                  </p>
-                </div>
-                <div>
-                  <Label htmlFor="endDate">End Date (minimum 30 days)</Label>
-                  <Input
-                    id="endDate"
-                    type="date"
-                    value={endDate}
-                    onChange={(e) => {
-                      const selectedEndDate = e.target.value;
-                      if (startDate) {
-                        const start = new Date(startDate);
-                        const end = new Date(selectedEndDate);
-                        const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-
-                        if (daysDiff < 30) {
-                          toast({
-                            title: 'Invalid Rental Period',
-                            description: 'Monthly rentals require a minimum of 30 days. End date has been adjusted.',
-                            variant: 'destructive'
-                          });
-                          // Set to minimum 30 days
-                          const minEnd = new Date(start);
-                          minEnd.setDate(start.getDate() + 30);
-                          setEndDate(minEnd.toISOString().split('T')[0]);
-                        } else {
-                          setEndDate(selectedEndDate);
-                        }
+        {/* Search Section */}
+        <div id="search" className="bg-slate-900 border-b border-slate-800">
+          <div className="container mx-auto px-6 py-10">
+            <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-4">Check Availability</p>
+            <div className="flex flex-col md:flex-row gap-4 items-end">
+              <div className="flex-1">
+                <Label className="text-slate-400 text-xs mb-1.5 block">Pickup Date</Label>
+                <Input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => {
+                    const selectedDate = e.target.value;
+                    setStartDate(selectedDate);
+                    if (selectedDate) {
+                      const start = new Date(selectedDate);
+                      const end = new Date(start);
+                      end.setDate(start.getDate() + 30);
+                      setEndDate(end.toISOString().split('T')[0]);
+                    }
+                  }}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="bg-slate-800 border-slate-700 text-white h-11"
+                />
+              </div>
+              <div className="flex-1">
+                <Label className="text-slate-400 text-xs mb-1.5 block">Return Date <span className="text-slate-600">(min 30 days)</span></Label>
+                <Input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => {
+                    const selectedEndDate = e.target.value;
+                    if (startDate) {
+                      const start = new Date(startDate);
+                      const end = new Date(selectedEndDate);
+                      const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                      if (daysDiff < 30) {
+                        toast({ title: 'Minimum 30 days required', description: 'Return date adjusted.', variant: 'destructive' });
+                        const minEnd = new Date(start);
+                        minEnd.setDate(start.getDate() + 30);
+                        setEndDate(minEnd.toISOString().split('T')[0]);
                       } else {
                         setEndDate(selectedEndDate);
                       }
-                    }}
-                    min={startDate ? (() => {
-                      const minDate = new Date(startDate);
-                      minDate.setDate(minDate.getDate() + 30);
-                      return minDate.toISOString().split('T')[0];
-                    })() : new Date().toISOString().split('T')[0]}
-                  />
-                  {startDate && endDate && (
-                    <p className="text-xs text-gray-500 mt-1">
-                      Rental period: {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days
-                    </p>
-                  )}
-                </div>
+                    } else {
+                      setEndDate(selectedEndDate);
+                    }
+                  }}
+                  min={startDate ? (() => { const d = new Date(startDate); d.setDate(d.getDate() + 30); return d.toISOString().split('T')[0]; })() : new Date().toISOString().split('T')[0]}
+                  className="bg-slate-800 border-slate-700 text-white h-11"
+                />
               </div>
-              <div className="mt-6 flex gap-3">
+              <div className="flex gap-2">
                 <Button
                   onClick={checkAvailability}
                   disabled={!startDate || !endDate}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-6 text-lg"
-                  size="lg"
+                  className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold h-11 px-8"
                 >
-                  Search Available Cars
+                  Search
                 </Button>
                 {(startDate || endDate) && (
                   <Button
-                    onClick={() => {
-                      setStartDate('');
-                      setEndDate('');
-                      setAvailableCars([]);
-                    }}
+                    onClick={() => { setStartDate(''); setEndDate(''); setAvailableCars([]); }}
                     variant="outline"
-                    className="px-6 py-6"
-                    size="lg"
+                    className="h-11 border-slate-700 text-slate-400 hover:text-white"
                   >
                     Clear
                   </Button>
                 )}
               </div>
-              {startDate && endDate && availableCars.length >= 0 && (
-                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-blue-800">
-                    Showing <strong>{availableCars.length}</strong> cars available from <strong>{new Date(startDate).toLocaleDateString()}</strong> to <strong>{new Date(endDate).toLocaleDateString()}</strong>
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Cars Grid */}
-        <div className="container mx-auto px-4 py-12">
-          <h3 className="text-3xl font-bold text-gray-800 mb-8">
-            Available Cars {startDate && endDate ? `(${availableCars.length})` : ''}
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(startDate && endDate ? availableCars : cars.filter(car => car.status === 'available')).map((car) => (
-              <Card key={car._id} className="hover:shadow-xl transition-shadow">
-                <CardHeader className="p-0">
-                  <img
-                    src={car.imageUrl}
-                    alt={car.name}
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                </CardHeader>
-                <CardContent className="p-6">
-                  <CardTitle className="text-xl mb-2">{car.name}</CardTitle>
-                  <CardDescription className="mb-4">
-                    {car.brand} {car.model}
-                  </CardDescription>
-                  <div className="mb-4">
-                    <p className="text-2xl font-bold text-blue-600">₹{car.price}/month</p>
-                  </div>
-                  {car.features && car.features.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {car.features.slice(0, 3).map((feature, idx) => (
-                        <Badge key={idx} variant="secondary">{feature}</Badge>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-                <CardFooter>
-                  <Button
-                    onClick={() => {
-                      setSelectedCar(car);
-                      setShowReservationForm(true);
-                    }}
-                    className="w-full bg-blue-600 hover:bg-blue-700"
-                  >
-                    Request Reservation
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
+            </div>
+            {startDate && endDate && (
+              <p className="mt-3 text-xs text-slate-500">
+                Showing <span className="text-amber-400 font-semibold">{availableCars.length} cars</span> available · {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days rental period
+              </p>
+            )}
           </div>
         </div>
 
-        {/* Reservation Form Dialog */}
+        {/* Fleet Section */}
+        <div id="fleet" className="bg-slate-950 py-20">
+          <div className="container mx-auto px-6">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-2">Our Fleet</p>
+                <h2 className="text-3xl font-bold text-white">
+                  {startDate && endDate ? `${displayCars.length} Cars Available` : 'Available Vehicles'}
+                </h2>
+              </div>
+              <p className="text-sm text-slate-500 hidden md:block">Starting from $1,299/month</p>
+            </div>
+
+            {displayCars.length === 0 ? (
+              <div className="text-center py-20 text-slate-500">
+                <Car className="h-12 w-12 mx-auto mb-4 opacity-30" />
+                <p className="text-lg">No cars available for the selected dates.</p>
+                <p className="text-sm mt-1">Try different dates or clear the search.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayCars.map((car) => (
+                  <div
+                    key={car._id}
+                    className="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/5 transition-all duration-300"
+                  >
+                    {/* Image */}
+                    <div className="relative h-48 bg-gradient-to-br from-slate-800 to-slate-700 overflow-hidden">
+                      <img
+                        src={car.imageUrl}
+                        alt={car.name}
+                        className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+                      <div className="absolute top-3 left-3">
+                        <span className="bg-slate-900/80 backdrop-blur text-amber-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-amber-500/30">
+                          {car.vehicleType || 'Car'}
+                        </span>
+                      </div>
+                      <div className="absolute bottom-3 right-3">
+                        <span className="bg-amber-500 text-slate-900 text-sm font-extrabold px-3 py-1 rounded-lg">
+                          ${car.price}<span className="text-xs font-semibold">/mo</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-5">
+                      <div className="mb-3">
+                        <h3 className="text-lg font-bold text-white">{car.name}</h3>
+                        <p className="text-sm text-slate-500">{car.brand} · {car.model} · {car.transmission}</p>
+                      </div>
+
+                      {/* Specs */}
+                      <div className="grid grid-cols-3 gap-2 mb-4">
+                        {[
+                          { icon: <Armchair className="h-3.5 w-3.5" />, label: `${car.specs?.seats || 5} Seats` },
+                          { icon: <Fuel className="h-3.5 w-3.5" />, label: car.specs?.fuel || 'Gasoline' },
+                          { icon: <Gauge className="h-3.5 w-3.5" />, label: car.specs?.mileage || 'N/A' },
+                        ].map((spec, i) => (
+                          <div key={i} className="flex flex-col items-center gap-1 bg-slate-800 rounded-lg py-2 px-1 text-slate-400">
+                            {spec.icon}
+                            <span className="text-xs">{spec.label}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Features */}
+                      {car.features?.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {car.features.slice(0, 3).map((f, i) => (
+                            <span key={i} className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">{f}</span>
+                          ))}
+                          {car.features.length > 3 && (
+                            <span className="text-xs bg-slate-800 text-slate-500 px-2 py-0.5 rounded-md">+{car.features.length - 3}</span>
+                          )}
+                        </div>
+                      )}
+
+                      <button
+                        onClick={() => { setSelectedCar(car); setShowReservationForm(true); }}
+                        className="w-full bg-slate-800 hover:bg-amber-500 hover:text-slate-900 text-white border border-slate-700 hover:border-amber-500 font-semibold py-2.5 rounded-xl text-sm transition-all duration-200"
+                      >
+                        Reserve This Car
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Why Us */}
+        <div id="why-us" className="bg-slate-900 border-t border-slate-800 py-20">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-2">Why Deccan Rentals</p>
+            <h2 className="text-3xl font-bold text-white mb-12">Everything you need, nothing you don't</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { icon: '💳', title: 'Flexible Billing', desc: 'Month-to-month rentals. No long-term lock-in. Cancel with 30-day notice.' },
+                { icon: '🔧', title: 'Free Maintenance', desc: 'All scheduled maintenance included. We keep your car in top shape.' },
+                { icon: '📞', title: '24/7 Support', desc: 'Roadside assistance and customer support any time, day or night.' },
+              ].map((item, i) => (
+                <div key={i} className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 hover:border-amber-500/30 transition-all">
+                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <h3 className="text-white font-bold mb-2">{item.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="bg-slate-950 border-t border-slate-800 py-10">
+          <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-600">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-md bg-amber-500 flex items-center justify-center">
+                <Car className="h-4 w-4 text-slate-900" />
+              </div>
+              <span className="font-semibold text-slate-400">Deccan Rentals</span>
+            </div>
+            <p>© {new Date().getFullYear()} Deccan Rentals LLC · Dallas, TX 75201</p>
+            <p>📞 (214) 555-0100 · support@deccanrentals.com</p>
+          </div>
+        </footer>
+
+        {/* Reservation Dialog */}
         <Dialog open={showReservationForm} onOpenChange={setShowReservationForm}>
-          <DialogContent>
+          <DialogContent className="bg-slate-900 border border-slate-700 text-white">
             <DialogHeader>
-              <DialogTitle>Request Reservation</DialogTitle>
-              <DialogDescription>
-                {selectedCar && `${selectedCar.name} - ₹${selectedCar.price}/month`}
+              <DialogTitle className="text-white text-xl">Reserve Your Car</DialogTitle>
+              <DialogDescription className="text-slate-400">
+                {selectedCar && (
+                  <span className="flex items-center gap-2 mt-1">
+                    <span className="text-amber-400 font-semibold">{selectedCar.name}</span>
+                    <span>·</span>
+                    <span className="text-amber-400 font-bold">${selectedCar.price}/month</span>
+                  </span>
+                )}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={(e) => {
@@ -981,48 +1093,40 @@ export default function App() {
                 message: formData.get('message')
               });
             }}>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="customerName">Full Name</Label>
-                  <Input id="customerName" name="customerName" required />
-                </div>
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" required />
-                </div>
-                <div>
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" name="phone" required />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4 mt-2">
+                <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <Label htmlFor="reservationStartDate">Start Date</Label>
-                    <Input
-                      id="reservationStartDate"
-                      name="startDate"
-                      type="date"
-                      defaultValue={startDate}
-                      min={new Date().toISOString().split('T')[0]}
-                      required
-                    />
+                    <Label className="text-slate-400 text-xs">Full Name</Label>
+                    <Input name="customerName" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="John Smith" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-slate-400 text-xs">Email</Label>
+                      <Input name="email" type="email" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="john@example.com" />
+                    </div>
+                    <div>
+                      <Label className="text-slate-400 text-xs">Phone</Label>
+                      <Input name="phone" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="(214) 555-0000" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-slate-400 text-xs">Start Date</Label>
+                      <Input name="startDate" type="date" defaultValue={startDate} min={new Date().toISOString().split('T')[0]} required className="bg-slate-800 border-slate-700 text-white mt-1" />
+                    </div>
+                    <div>
+                      <Label className="text-slate-400 text-xs">End Date</Label>
+                      <Input name="endDate" type="date" defaultValue={endDate} min={startDate || new Date().toISOString().split('T')[0]} required className="bg-slate-800 border-slate-700 text-white mt-1" />
+                    </div>
                   </div>
                   <div>
-                    <Label htmlFor="reservationEndDate">End Date</Label>
-                    <Input
-                      id="reservationEndDate"
-                      name="endDate"
-                      type="date"
-                      defaultValue={endDate}
-                      min={startDate || new Date().toISOString().split('T')[0]}
-                      required
-                    />
+                    <Label className="text-slate-400 text-xs">Message (Optional)</Label>
+                    <Textarea name="message" className="bg-slate-800 border-slate-700 text-white mt-1 resize-none" rows={3} placeholder="Any specific requirements..." />
                   </div>
                 </div>
-                <div>
-                  <Label htmlFor="message">Message (Optional)</Label>
-                  <Textarea id="message" name="message" />
-                </div>
-                <Button type="submit" className="w-full">Submit Request</Button>
+                <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5">
+                  Submit Reservation Request
+                </Button>
               </div>
             </form>
           </DialogContent>
@@ -1034,57 +1138,57 @@ export default function App() {
   // Admin Login View
   if (isAdmin && !token) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center">Admin Login</CardTitle>
-            <CardDescription className="text-center">
-              Default: admin / admin123
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <div className="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center mx-auto mb-4">
+              <Car className="h-6 w-6 text-slate-900" />
+            </div>
+            <h1 className="text-2xl font-bold text-white">Deccan Rentals</h1>
+            <p className="text-slate-500 text-sm mt-1">Admin Portal · Dallas, TX</p>
+          </div>
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-white mb-6">Sign in to continue</h2>
             <form onSubmit={handleLogin}>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="username">Username</Label>
+                  <Label className="text-slate-400 text-xs">Username</Label>
                   <Input
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="admin"
                     required
+                    className="bg-slate-800 border-slate-700 text-white mt-1"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="password">Password</Label>
+                  <Label className="text-slate-400 text-xs">Password</Label>
                   <Input
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="admin123"
+                    placeholder="••••••••"
                     required
+                    className="bg-slate-800 border-slate-700 text-white mt-1"
                   />
                 </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  onClick={() => console.log('Login button clicked!')}
-                >
-                  Login
+                <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold mt-2">
+                  Sign In
                 </Button>
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="ghost"
                   onClick={() => setIsAdmin(false)}
-                  className="w-full"
+                  className="w-full text-slate-500 hover:text-white"
                 >
                   Back to Customer Portal
                 </Button>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }
@@ -1104,52 +1208,58 @@ export default function App() {
 
       <div className="container mx-auto px-4 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-600">Total Cars</CardTitle>
-            </CardHeader>
-            <CardContent>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+          <Card className="border-l-4 border-l-gray-400">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-gray-500 font-medium">Total Cars</span>
+                <Car className="h-4 w-4 text-gray-400" />
+              </div>
               <p className="text-3xl font-bold">{stats.totalCars || 0}</p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-600">Available</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <Card className="border-l-4 border-l-green-500">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-gray-500 font-medium">Available</span>
+                <Check className="h-4 w-4 text-green-500" />
+              </div>
               <p className="text-3xl font-bold text-green-600">{stats.availableCars || 0}</p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-600">Rented</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <Card className="border-l-4 border-l-blue-500">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-gray-500 font-medium">Rented</span>
+                <Settings2 className="h-4 w-4 text-blue-500" />
+              </div>
               <p className="text-3xl font-bold text-blue-600">{stats.rentedCars || 0}</p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-600">Reservations</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <Card className="border-l-4 border-l-orange-500">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-gray-500 font-medium">Pending Reservations</span>
+                <Calendar className="h-4 w-4 text-orange-500" />
+              </div>
               <p className="text-3xl font-bold text-orange-600">{stats.pendingReservations || 0}</p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-600">Active Rentals</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <Card className="border-l-4 border-l-purple-500">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-gray-500 font-medium">Active Rentals</span>
+                <Users className="h-4 w-4 text-purple-500" />
+              </div>
               <p className="text-3xl font-bold text-purple-600">{stats.activeRentals || 0}</p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-600">Due Payments</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <Card className="border-l-4 border-l-red-500">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-gray-500 font-medium">Due Payments</span>
+                <DollarSign className="h-4 w-4 text-red-500" />
+              </div>
               <p className="text-3xl font-bold text-red-600">{stats.pendingPayments || 0}</p>
             </CardContent>
           </Card>
@@ -1405,7 +1515,7 @@ export default function App() {
                         {car.status}
                       </Badge>
                     </div>
-                    <p className="text-xl font-bold text-blue-600">₹{car.price}/month</p>
+                    <p className="text-xl font-bold text-blue-600">${car.price}/month</p>
                   </CardContent>
                   <CardFooter className="flex gap-2">
                     <Button
@@ -1574,20 +1684,20 @@ export default function App() {
                       {reservation.assignedVehicle || 'Not Assigned'}
                     </TableCell>
                     <TableCell className="text-right">
-                      ₹{(reservation.totalPrice || 0).toFixed(2)}
+                      ${(reservation.totalPrice || 0).toFixed(2)}
                     </TableCell>
                     <TableCell className="text-right">
-                      ₹{(reservation.totalRevenue || reservation.totalPrice || 0).toFixed(2)}
+                      ${(reservation.totalRevenue || reservation.totalPrice || 0).toFixed(2)}
                     </TableCell>
                     <TableCell className="text-right">
-                      ₹{(reservation.totalPaid || 0).toFixed(2)}
+                      ${(reservation.totalPaid || 0).toFixed(2)}
                     </TableCell>
                     <TableCell className="text-right">
-                      ₹{(reservation.totalRefunded || 0).toFixed(2)}
+                      ${(reservation.totalRefunded || 0).toFixed(2)}
                     </TableCell>
                     <TableCell className="text-right font-medium">
                       <span className={reservation.outstandingBalance > 0 ? 'text-red-600' : 'text-green-600'}>
-                        ₹{(reservation.outstandingBalance || 0).toFixed(2)}
+                        ${(reservation.outstandingBalance || 0).toFixed(2)}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -1615,7 +1725,7 @@ export default function App() {
                       {reservation.totalDays || 0}
                     </TableCell>
                     <TableCell className="text-right">
-                      ₹{(reservation.dailyRate || 0).toFixed(2)}
+                      ${(reservation.dailyRate || 0).toFixed(2)}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
@@ -1686,25 +1796,25 @@ export default function App() {
                   <div>
                     <span className="text-gray-600">Total Price: </span>
                     <span className="font-bold">
-                      ₹{getFilteredReservations().reduce((sum, r) => sum + (r.totalPrice || 0), 0).toFixed(2)}
+                      ${getFilteredReservations().reduce((sum, r) => sum + (r.totalPrice || 0), 0).toFixed(2)}
                     </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Total Revenue: </span>
                     <span className="font-bold">
-                      ₹{getFilteredReservations().reduce((sum, r) => sum + (r.totalRevenue || r.totalPrice || 0), 0).toFixed(2)}
+                      ${getFilteredReservations().reduce((sum, r) => sum + (r.totalRevenue || r.totalPrice || 0), 0).toFixed(2)}
                     </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Total Paid: </span>
                     <span className="font-bold">
-                      ₹{getFilteredReservations().reduce((sum, r) => sum + (r.totalPaid || 0), 0).toFixed(2)}
+                      ${getFilteredReservations().reduce((sum, r) => sum + (r.totalPaid || 0), 0).toFixed(2)}
                     </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Outstanding: </span>
                     <span className="font-bold text-red-600">
-                      ₹{getFilteredReservations().reduce((sum, r) => sum + (r.outstandingBalance || 0), 0).toFixed(2)}
+                      ${getFilteredReservations().reduce((sum, r) => sum + (r.outstandingBalance || 0), 0).toFixed(2)}
                     </span>
                   </div>
                   <div>
@@ -1751,7 +1861,7 @@ export default function App() {
                     <TableCell>{rental.carDetails.name}</TableCell>
                     <TableCell>{new Date(rental.startDate).toLocaleDateString()}</TableCell>
                     <TableCell>{rental.endDate ? new Date(rental.endDate).toLocaleDateString() : 'Ongoing'}</TableCell>
-                    <TableCell>₹{rental.monthlyPrice}</TableCell>
+                    <TableCell>${rental.monthlyPrice}</TableCell>
                     <TableCell>
                       <Badge variant={rental.status === 'active' ? 'default' : 'secondary'}>
                         {rental.status}
@@ -2073,7 +2183,7 @@ export default function App() {
                   <TableRow key={payment._id}>
                     <TableCell>{payment.rentalDetails.customerName}</TableCell>
                     <TableCell>{payment.rentalDetails.carName}</TableCell>
-                    <TableCell>₹{payment.amount}</TableCell>
+                    <TableCell>${payment.amount}</TableCell>
                     <TableCell>{new Date(payment.dueDate).toLocaleDateString()}</TableCell>
                     <TableCell>{payment.paidDate ? new Date(payment.paidDate).toLocaleDateString() : '-'}</TableCell>
                     <TableCell>
@@ -2330,7 +2440,7 @@ export default function App() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="price">Monthly Price (₹)</Label>
+                  <Label htmlFor="price">Monthly Price ($)</Label>
                   <Input id="price" name="price" type="number" defaultValue={editingCar?.price} required />
                 </div>
                 <div>
@@ -2562,7 +2672,7 @@ export default function App() {
                   <SelectContent>
                     {cars.filter(car => car.status === 'available').map((car) => (
                       <SelectItem key={car._id} value={car._id}>
-                        {car.name} - ₹{car.price}/month
+                        {car.name} - ${car.price}/month
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -2585,7 +2695,7 @@ export default function App() {
                 <Input id="startDate" name="startDate" type="date" required />
               </div>
               <div>
-                <Label htmlFor="monthlyPrice">Monthly Price (₹)</Label>
+                <Label htmlFor="monthlyPrice">Monthly Price ($)</Label>
                 <Input id="monthlyPrice" name="monthlyPrice" type="number" required />
               </div>
               <Button type="submit" className="w-full">Create Rental</Button>
@@ -2627,7 +2737,7 @@ export default function App() {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="amount">Amount (₹)</Label>
+                <Label htmlFor="amount">Amount ($)</Label>
                 <Input id="amount" name="amount" type="number" required />
               </div>
               <div>
@@ -2816,7 +2926,7 @@ export default function App() {
                 <h3 className="font-semibold mb-3">Financial Information</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="editTotalPaid">Total Paid (₹)</Label>
+                    <Label htmlFor="editTotalPaid">Total Paid ($)</Label>
                     <Input
                       id="editTotalPaid"
                       name="totalPaid"
@@ -2826,7 +2936,7 @@ export default function App() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="editTotalRefunded">Total Refunded (₹)</Label>
+                    <Label htmlFor="editTotalRefunded">Total Refunded ($)</Label>
                     <Input
                       id="editTotalRefunded"
                       name="totalRefunded"

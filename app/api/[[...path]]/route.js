@@ -59,11 +59,14 @@ async function connectToDatabase() {
     return { client: cachedClient, db: cachedDb };
   }
 
-  // MongoDB connection options for serverless/production environments
+  // MongoDB connection options — TLS only for Atlas (mongodb+srv://), not localhost
+  const isAtlas = MONGO_URL.startsWith('mongodb+srv://');
   const options = {
-    tls: true,
-    tlsAllowInvalidCertificates: false,
-    tlsAllowInvalidHostnames: false,
+    ...(isAtlas && {
+      tls: true,
+      tlsAllowInvalidCertificates: false,
+      tlsAllowInvalidHostnames: false,
+    }),
     serverSelectionTimeoutMS: 5000,
     socketTimeoutMS: 45000,
     maxPoolSize: 10,
