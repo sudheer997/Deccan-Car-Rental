@@ -862,18 +862,18 @@ export default function App() {
       searchBtn:   { bg: '#f59e0b', text: '#0f172a' },
       searchClear: 'border border-slate-700 text-slate-400 hover:bg-slate-800',
       searchCount: 'text-amber-400',
-      fleetBg:     'bg-slate-950',
+      fleetBg:     'bg-slate-900',
       fleetAccent: 'text-amber-500',
       fleetTitle:  'text-white',
       fleetSub:    'text-slate-500',
-      card:        'bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:shadow-amber-500/5',
+      card:        'bg-slate-800 border border-slate-700 hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-500/10',
       cardBadgeBg: '#1e293b', cardBadgeText: '#f59e0b', cardBadgeBorder: '1px solid rgba(245,158,11,0.3)',
       cardPriceBg: '#f59e0b', cardPriceText: '#0f172a',
       cardTitle:   'text-white',
-      cardSub:     'text-slate-500',
-      specBox:     'bg-slate-800 text-slate-400',
-      featTag:     'bg-slate-800 text-slate-400',
-      cardBtn:     'bg-slate-800 hover:bg-amber-500 hover:text-slate-900 text-white border border-slate-700 hover:border-amber-500',
+      cardSub:     'text-slate-400',
+      specBox:     'bg-slate-700 text-slate-300',
+      featTag:     'bg-slate-700 text-slate-300',
+      cardBtn:     'bg-slate-700 hover:bg-amber-500 hover:text-slate-900 text-white border border-slate-600 hover:border-amber-500',
       whyBg:       'bg-slate-900 border-t border-slate-800',
       whyAccent:   'text-amber-500',
       whyTitle:    'text-white',
@@ -1160,10 +1160,10 @@ export default function App() {
                       <img
                         src={car.imageUrl}
                         alt={car.name}
-                        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${isDark ? 'opacity-80' : ''}`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         onError={(e) => { e.target.style.display = 'none'; }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                      <div className={`absolute inset-0 bg-gradient-to-t ${isDark ? 'from-slate-800/60 to-transparent' : 'from-black/30 to-transparent'}`} />
                       <div className="absolute top-3 left-3">
                         <span className="text-xs font-bold px-2.5 py-1 rounded shadow-sm" style={{backgroundColor: t.cardBadgeBg, color: t.cardBadgeText, border: t.cardBadgeBorder}}>
                           {car.vehicleType || 'Car'}
