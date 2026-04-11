@@ -824,11 +824,11 @@ export default function App() {
       ? (availableCars.length > 0 ? availableCars : cars.filter(car => car.status === 'available'))
       : cars.filter(car => car.status === 'available');
     return (
-      <div className="min-h-screen bg-slate-950 text-white">
+      <div className="min-h-screen bg-white text-gray-800" style={{fontFamily: "'Open Sans', 'Inter', sans-serif"}}>
 
         {/* Top Bar */}
-        <div className="bg-slate-900 border-b border-slate-800">
-          <div className="container mx-auto px-4 py-2 flex justify-between items-center text-xs text-slate-400">
+        <div style={{backgroundColor: '#FACC15'}} className="text-black">
+          <div className="max-w-6xl mx-auto px-4 py-2 flex justify-between items-center text-xs font-semibold">
             <span className="hidden sm:inline">📍 Dallas, Texas — Serving DFW and surrounding areas</span>
             <span className="sm:hidden">📍 Dallas, TX</span>
             <span>📞 (214) 555-0100</span>
@@ -836,170 +836,85 @@ export default function App() {
         </div>
 
         {/* Navbar */}
-        <nav className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800">
-          <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-amber-500 flex items-center justify-center flex-shrink-0">
-                <Car className="h-4 w-4 sm:h-5 sm:w-5 text-slate-900" />
+        <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#FACC15'}}>
+                <Car className="h-5 w-5 text-black" />
               </div>
               <div>
-                <span className="text-base sm:text-xl font-bold text-white tracking-tight">Deccan Rentals</span>
-                <span className="hidden sm:inline text-xs text-slate-500 ml-2">Dallas, TX</span>
+                <span className="text-lg font-bold tracking-tight text-gray-900">Deccan Rentals</span>
+                <span className="hidden sm:inline text-xs text-gray-400 ml-2">Dallas, TX</span>
               </div>
             </div>
-            <div className="flex items-center gap-3 sm:gap-6">
-              <a href="#fleet" className="hidden md:inline text-sm text-slate-400 hover:text-white transition-colors">Our Fleet</a>
-              <a href="#why-us" className="hidden md:inline text-sm text-slate-400 hover:text-white transition-colors">Why Us</a>
-              <Button
+            <div className="flex items-center gap-4 sm:gap-6">
+              <a href="#fleet" className="hidden md:inline text-sm text-gray-500 hover:text-gray-800 transition-colors font-medium">Our Fleet</a>
+              <a href="#why-us" className="hidden md:inline text-sm text-gray-500 hover:text-gray-800 transition-colors font-medium">Why Us</a>
+              <a href="#search" className="hidden sm:inline text-sm font-semibold text-black px-4 py-2 rounded transition-all" style={{backgroundColor: '#FACC15'}}>
+                Check Availability
+              </a>
+              <button
                 onClick={() => setIsAdmin(true)}
-                size="sm"
-                className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold text-xs sm:text-sm px-3 sm:px-4"
+                className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
               >
-                Admin Login
-              </Button>
+                Admin
+              </button>
             </div>
           </div>
         </nav>
 
         {/* Hero */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-          {/* Antique car background */}
-          <div className="absolute inset-0">
-            <img
-              src="https://images.unsplash.com/photo-1534093607318-f025413f49cb?w=1600&q=80"
-              alt="Antique car"
-              className="w-full h-full object-cover object-center opacity-20"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/50 to-slate-900/90" />
-          </div>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-600/10 via-transparent to-transparent" />
-
-          {/* Moving cars layer — hidden on small screens to reduce clutter */}
-          <div className="hidden sm:block absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Road lines */}
-            <div className="absolute bottom-0 left-0 right-0 h-[120px] bg-gradient-to-t from-slate-950/80 to-transparent" />
-            <div className="absolute bottom-[52px] left-0 right-0 h-px bg-amber-500/20" />
-            <div className="absolute bottom-[88px] left-0 right-0 h-px border-t border-dashed border-white/10" />
-
-            {/* Cars going right — bottom lane */}
-            <div className="car-drive-r1 absolute bottom-[14px]">
-              <svg width="180" height="36" viewBox="0 0 180 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="20" y="16" width="140" height="16" rx="4" fill="#f59e0b" fillOpacity="0.7"/>
-                <rect x="40" y="6" width="80" height="14" rx="3" fill="#fbbf24" fillOpacity="0.6"/>
-                <circle cx="48" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <circle cx="132" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <rect x="148" y="20" width="16" height="6" rx="1" fill="#fef3c7" fillOpacity="0.9"/>
-                <rect x="16" y="22" width="8" height="4" rx="1" fill="#ef4444" fillOpacity="0.7"/>
-                <rect x="44" y="9" width="30" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.4"/>
-                <rect x="82" y="9" width="30" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.4"/>
-              </svg>
+        <div className="relative overflow-hidden" style={{minHeight: '480px'}}>
+          <img
+            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600&q=80"
+            alt="Car rental hero"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0" style={{background: 'linear-gradient(135deg, rgba(250,204,21,0.82) 0%, rgba(17,17,17,0.78) 100%)'}} />
+          <div className="relative max-w-6xl mx-auto px-4 py-16 sm:py-24 flex flex-col items-center text-center text-white">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              {cars.filter(c => c.status === 'available').length} Vehicles Available in Dallas
             </div>
-            <div className="car-drive-r2 absolute bottom-[14px]">
-              <svg width="160" height="36" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="15" y="16" width="130" height="16" rx="4" fill="#64748b" fillOpacity="0.8"/>
-                <rect x="30" y="7" width="75" height="13" rx="3" fill="#94a3b8" fillOpacity="0.6"/>
-                <circle cx="40" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <circle cx="120" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <rect x="133" y="20" width="14" height="6" rx="1" fill="#fef3c7" fillOpacity="0.9"/>
-                <rect x="13" y="22" width="6" height="4" rx="1" fill="#ef4444" fillOpacity="0.7"/>
-                <rect x="34" y="10" width="28" height="8" rx="2" fill="#7dd3fc" fillOpacity="0.35"/>
-                <rect x="70" y="10" width="28" height="8" rx="2" fill="#7dd3fc" fillOpacity="0.35"/>
-              </svg>
-            </div>
-            <div className="car-drive-r3 absolute bottom-[14px]">
-              <svg width="200" height="36" viewBox="0 0 200 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="15" width="175" height="18" rx="5" fill="#78350f" fillOpacity="0.75"/>
-                <rect x="35" y="5" width="95" height="14" rx="3" fill="#92400e" fillOpacity="0.65"/>
-                <circle cx="50" cy="34" r="9" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <circle cx="150" cy="34" r="9" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <rect x="178" y="19" width="18" height="7" rx="1" fill="#fef3c7" fillOpacity="0.9"/>
-                <rect x="8" y="21" width="9" height="5" rx="1" fill="#ef4444" fillOpacity="0.6"/>
-                <rect x="39" y="8" width="35" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.3"/>
-                <rect x="85" y="8" width="35" height="9" rx="2" fill="#7dd3fc" fillOpacity="0.3"/>
-              </svg>
-            </div>
-
-            {/* Cars going right — upper lane */}
-            <div className="car-drive-r4 absolute bottom-[60px]">
-              <svg width="150" height="30" viewBox="0 0 150 30" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.5">
-                <rect x="12" y="12" width="122" height="14" rx="3" fill="#475569"/>
-                <rect x="28" y="5" width="65" height="10" rx="2" fill="#64748b"/>
-                <circle cx="35" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
-                <circle cx="112" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
-                <rect x="125" y="15" width="12" height="5" rx="1" fill="#fef3c7" fillOpacity="0.8"/>
-              </svg>
-            </div>
-
-            {/* Cars going left — oncoming lane */}
-            <div className="car-drive-l1 absolute bottom-[60px]">
-              <svg width="160" height="30" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.45">
-                <rect x="14" y="12" width="130" height="14" rx="3" fill="#1d4ed8" fillOpacity="0.8"/>
-                <rect x="30" y="5" width="72" height="10" rx="2" fill="#3b82f6" fillOpacity="0.7"/>
-                <circle cx="38" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
-                <circle cx="122" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/>
-                <rect x="133" y="15" width="12" height="5" rx="1" fill="#fef3c7" fillOpacity="0.8"/>
-                <rect x="28" y="8" width="25" height="7" rx="1" fill="#bfdbfe" fillOpacity="0.35"/>
-                <rect x="62" y="8" width="25" height="7" rx="1" fill="#bfdbfe" fillOpacity="0.35"/>
-              </svg>
-            </div>
-            <div className="car-drive-l2 absolute bottom-[14px]">
-              <svg width="170" height="36" viewBox="0 0 170 36" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.4">
-                <rect x="16" y="16" width="138" height="16" rx="4" fill="#166534" fillOpacity="0.8"/>
-                <rect x="36" y="7" width="78" height="13" rx="3" fill="#16a34a" fillOpacity="0.65"/>
-                <circle cx="46" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <circle cx="126" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/>
-                <rect x="140" y="20" width="14" height="6" rx="1" fill="#fef3c7" fillOpacity="0.8"/>
-                <rect x="38" y="10" width="27" height="8" rx="2" fill="#bbf7d0" fillOpacity="0.3"/>
-                <rect x="74" y="10" width="27" height="8" rx="2" fill="#bbf7d0" fillOpacity="0.3"/>
-              </svg>
-            </div>
-          </div>
-
-          <div className="relative container mx-auto px-4 sm:px-6 py-10 sm:py-24 text-center">
-            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-5 sm:mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              {cars.filter(c => c.status === 'available').length} Vehicles Available Now
-            </div>
-            <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight tracking-tight">
-              Drive More.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Pay Less.</span>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight tracking-tight max-w-3xl">
+              Premium Monthly<br />Car Rentals in Dallas
             </h1>
-            <p className="text-sm sm:text-lg text-slate-400 mb-6 sm:mb-10 max-w-xl mx-auto px-2">
-              Premium monthly car rentals in Dallas, TX. Flexible terms, zero commitment, no hidden fees.
+            <p className="text-sm sm:text-lg text-white/80 mb-8 max-w-xl">
+              Flexible month-to-month terms. No hidden fees. Free maintenance included.
             </p>
-            <div className="flex justify-center gap-3 sm:gap-4 mb-8 sm:mb-16">
-              <a href="#search" className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 sm:px-8 py-2.5 sm:py-3 rounded-lg transition-all shadow-lg shadow-amber-500/20 text-sm">
+            <div className="flex gap-3">
+              <a href="#search" className="font-bold px-6 py-3 rounded text-sm transition-all shadow-lg" style={{backgroundColor: '#FACC15', color: '#111111'}}>
                 Browse Fleet
               </a>
-              <a href="#why-us" className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-5 sm:px-8 py-2.5 sm:py-3 rounded-lg transition-all text-sm">
+              <a href="#why-us" className="border-2 border-white/60 text-white font-semibold px-6 py-3 rounded text-sm hover:bg-white/10 transition-all">
                 Learn More
               </a>
             </div>
-            <div className="flex justify-center gap-8 sm:gap-12 text-center">
+
+            {/* Stats bar */}
+            <div className="mt-12 sm:mt-16 flex gap-8 sm:gap-16 text-center border-t border-white/20 pt-8 w-full max-w-md mx-auto justify-center">
               {[
                 { value: `${cars.filter(c => c.status === 'available').length}+`, label: 'Cars Available' },
                 { value: '30', label: 'Day Minimum' },
                 { value: '24/7', label: 'Support' },
               ].map((stat, i) => (
                 <div key={i}>
-                  <p className="text-xl sm:text-3xl font-bold text-white">{stat.value}</p>
-                  <p className="text-xs text-slate-500 mt-1">{stat.label}</p>
+                  <p className="text-2xl sm:text-3xl font-extrabold">{stat.value}</p>
+                  <p className="text-xs text-white/60 mt-1 uppercase tracking-wide">{stat.label}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
         </div>
 
-        {/* Search Section */}
-        <div id="search" className="bg-slate-900 border-b border-slate-800">
-          <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10">
-            <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-4">Check Availability</p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-end">
+        {/* Search / Availability Bar */}
+        <div id="search" className="bg-gray-50 border-y border-gray-200">
+          <div className="max-w-6xl mx-auto px-4 py-8">
+            <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{color: '#FACC15'}}>Check Availability</p>
+            <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
               <div className="flex-1">
-                <Label className="text-slate-400 text-xs mb-1.5 block">Pickup Date</Label>
-                <Input
+                <label className="text-xs text-gray-500 font-semibold mb-1.5 block">Pickup Date</label>
+                <input
                   type="date"
                   value={startDate}
                   onChange={(e) => {
@@ -1013,12 +928,13 @@ export default function App() {
                     }
                   }}
                   min={new Date().toISOString().split('T')[0]}
-                  className="bg-slate-800 border-slate-700 text-white h-11"
+                  className="w-full border border-gray-300 rounded px-3 h-11 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:border-transparent"
+                  style={{'--tw-ring-color': '#006F97'}}
                 />
               </div>
               <div className="flex-1">
-                <Label className="text-slate-400 text-xs mb-1.5 block">Return Date <span className="text-slate-600">(min 30 days)</span></Label>
-                <Input
+                <label className="text-xs text-gray-500 font-semibold mb-1.5 block">Return Date <span className="text-gray-400 font-normal">(min 30 days)</span></label>
+                <input
                   type="date"
                   value={endDate}
                   onChange={(e) => {
@@ -1040,78 +956,79 @@ export default function App() {
                     }
                   }}
                   min={startDate ? (() => { const d = new Date(startDate); d.setDate(d.getDate() + 30); return d.toISOString().split('T')[0]; })() : new Date().toISOString().split('T')[0]}
-                  className="bg-slate-800 border-slate-700 text-white h-11"
+                  className="w-full border border-gray-300 rounded px-3 h-11 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:border-transparent"
                 />
               </div>
               <div className="flex gap-2 w-full sm:w-auto">
-                <Button
+                <button
                   onClick={checkAvailability}
                   disabled={!startDate || !endDate}
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold h-11 px-6 sm:px-8 flex-1 sm:flex-none"
+                  className="flex-1 sm:flex-none h-11 px-8 rounded font-bold text-sm text-black transition-all disabled:opacity-50"
+                  style={{backgroundColor: '#FACC15'}}
                 >
                   Search
-                </Button>
+                </button>
                 {(startDate || endDate) && (
-                  <Button
+                  <button
                     onClick={() => { setStartDate(''); setEndDate(''); setAvailableCars([]); }}
-                    variant="outline"
-                    className="h-11 border-slate-700 text-slate-400 hover:text-white"
+                    className="h-11 px-4 rounded border border-gray-300 text-gray-500 text-sm hover:bg-gray-100 transition-all"
                   >
                     Clear
-                  </Button>
+                  </button>
                 )}
               </div>
             </div>
             {startDate && endDate && (
-              <p className="mt-3 text-xs text-slate-500">
-                Showing <span className="text-amber-400 font-semibold">{availableCars.length} cars</span> available · {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days rental period
+              <p className="mt-3 text-xs text-gray-500">
+                Showing <span className="font-bold" style={{color: '#FACC15'}}>{displayCars.length} cars</span> available · {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days rental period
               </p>
             )}
           </div>
         </div>
 
         {/* Fleet Section */}
-        <div id="fleet" className="bg-slate-950 py-8 sm:py-20">
-          <div className="container mx-auto px-4 sm:px-6">
-            <div className="flex items-end justify-between mb-6 sm:mb-10">
+        <div id="fleet" className="bg-white py-10 sm:py-16">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-2">Our Fleet</p>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">
+                <p className="text-xs uppercase tracking-widest font-bold mb-1" style={{color: '#FACC15'}}>Our Fleet</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
                   {startDate && endDate ? `${displayCars.length} Cars Available` : 'Available Vehicles'}
                 </h2>
               </div>
-              <p className="text-sm text-slate-500 hidden md:block">Starting from $1,299/month</p>
+              <p className="text-sm text-gray-400 hidden md:block">Starting from $1,299/month</p>
             </div>
 
             {displayCars.length === 0 ? (
-              <div className="text-center py-20 text-slate-500">
+              <div className="text-center py-20 text-gray-400">
                 <Car className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                <p className="text-lg">No cars available for the selected dates.</p>
+                <p className="text-lg font-medium text-gray-500">No cars available for the selected dates.</p>
                 <p className="text-sm mt-1">Try different dates or clear the search.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 {displayCars.map((car) => (
                   <div
                     key={car._id}
-                    className="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/5 transition-all duration-300"
+                    className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300"
+                    style={{'--hover-border': '#006F97'}}
                   >
                     {/* Image */}
-                    <div className="relative h-48 bg-gradient-to-br from-slate-800 to-slate-700 overflow-hidden">
+                    <div className="relative h-48 bg-gray-100 overflow-hidden">
                       <img
                         src={car.imageUrl}
                         alt={car.name}
-                        className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         onError={(e) => { e.target.style.display = 'none'; }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                       <div className="absolute top-3 left-3">
-                        <span className="bg-slate-900/80 backdrop-blur text-amber-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-amber-500/30">
+                        <span className="text-xs font-bold px-2.5 py-1 rounded shadow-sm" style={{backgroundColor: '#FACC15', color: '#111111'}}>
                           {car.vehicleType || 'Car'}
                         </span>
                       </div>
                       <div className="absolute bottom-3 right-3">
-                        <span className="bg-amber-500 text-slate-900 text-sm font-extrabold px-3 py-1 rounded-lg">
+                        <span className="text-black text-sm font-extrabold px-3 py-1 rounded shadow-lg" style={{backgroundColor: '#FACC15'}}>
                           ${car.price}<span className="text-xs font-semibold">/mo</span>
                         </span>
                       </div>
@@ -1120,8 +1037,8 @@ export default function App() {
                     {/* Content */}
                     <div className="p-5">
                       <div className="mb-3">
-                        <h3 className="text-lg font-bold text-white">{car.name}</h3>
-                        <p className="text-sm text-slate-500">{car.brand} · {car.model} · {car.transmission}</p>
+                        <h3 className="text-base font-bold text-gray-800">{car.name}</h3>
+                        <p className="text-sm text-gray-400">{car.brand} · {car.model} · {car.transmission}</p>
                       </div>
 
                       {/* Specs */}
@@ -1131,9 +1048,9 @@ export default function App() {
                           { icon: <Fuel className="h-3.5 w-3.5" />, label: car.specs?.fuel || 'Gasoline' },
                           { icon: <Gauge className="h-3.5 w-3.5" />, label: car.specs?.mileage || 'N/A' },
                         ].map((spec, i) => (
-                          <div key={i} className="flex flex-col items-center gap-1 bg-slate-800 rounded-lg py-2 px-1 text-slate-400">
+                          <div key={i} className="flex flex-col items-center gap-1 bg-gray-50 border border-gray-100 rounded-lg py-2 px-1 text-gray-400">
                             {spec.icon}
-                            <span className="text-xs">{spec.label}</span>
+                            <span className="text-xs text-gray-500">{spec.label}</span>
                           </div>
                         ))}
                       </div>
@@ -1142,17 +1059,18 @@ export default function App() {
                       {car.features?.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 mb-4">
                           {car.features.slice(0, 3).map((f, i) => (
-                            <span key={i} className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">{f}</span>
+                            <span key={i} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">{f}</span>
                           ))}
                           {car.features.length > 3 && (
-                            <span className="text-xs bg-slate-800 text-slate-500 px-2 py-0.5 rounded-md">+{car.features.length - 3}</span>
+                            <span className="text-xs bg-gray-100 text-gray-400 px-2 py-0.5 rounded">+{car.features.length - 3}</span>
                           )}
                         </div>
                       )}
 
                       <button
                         onClick={() => { setSelectedCar(car); setShowReservationForm(true); }}
-                        className="w-full bg-slate-800 hover:bg-amber-500 hover:text-slate-900 text-white border border-slate-700 hover:border-amber-500 font-semibold py-2.5 rounded-xl text-sm transition-all duration-200"
+                        className="w-full text-black font-bold py-2.5 rounded text-sm transition-all duration-200 hover:opacity-90"
+                        style={{backgroundColor: '#FACC15'}}
                       >
                         Reserve This Car
                       </button>
@@ -1165,20 +1083,20 @@ export default function App() {
         </div>
 
         {/* Why Us */}
-        <div id="why-us" className="bg-slate-900 border-t border-slate-800 py-12 sm:py-20">
-          <div className="container mx-auto px-4 sm:px-6 text-center">
-            <p className="text-xs text-amber-500 uppercase tracking-widest font-semibold mb-2">Why Deccan Rentals</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12">Everything you need, nothing you don't</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div id="why-us" className="bg-gray-50 border-t border-gray-200 py-12 sm:py-16">
+          <div className="max-w-6xl mx-auto px-4 text-center">
+            <p className="text-xs uppercase tracking-widest font-bold mb-2" style={{color: '#FACC15'}}>Why Deccan Rentals</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-8 sm:mb-12">Everything you need, nothing you don't</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { icon: '💳', title: 'Flexible Billing', desc: 'Month-to-month rentals. No long-term lock-in. Cancel with 30-day notice.' },
                 { icon: '🔧', title: 'Free Maintenance', desc: 'All scheduled maintenance included. We keep your car in top shape.' },
                 { icon: '📞', title: '24/7 Support', desc: 'Roadside assistance and customer support any time, day or night.' },
               ].map((item, i) => (
-                <div key={i} className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 hover:border-amber-500/30 transition-all">
-                  <div className="text-4xl mb-4">{item.icon}</div>
-                  <h3 className="text-white font-bold mb-2">{item.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                <div key={i} className="bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-200 hover:shadow-md transition-all text-left">
+                  <div className="text-3xl mb-4">{item.icon}</div>
+                  <h3 className="text-gray-800 font-bold mb-2">{item.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -1186,30 +1104,30 @@ export default function App() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-slate-950 border-t border-slate-800 py-8 sm:py-10">
-          <div className="container mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs sm:text-sm text-slate-600 text-center md:text-left">
+        <footer className="border-t border-gray-200 py-8" style={{backgroundColor: '#111111'}}>
+          <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-center md:text-left">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-md bg-amber-500 flex items-center justify-center">
-                <Car className="h-4 w-4 text-slate-900" />
+              <div className="w-7 h-7 rounded flex items-center justify-center" style={{backgroundColor: '#FACC15'}}>
+                <Car className="h-4 w-4 text-black" />
               </div>
-              <span className="font-semibold text-slate-400">Deccan Rentals</span>
+              <span className="font-bold text-white">Deccan Rentals</span>
             </div>
-            <p>© {new Date().getFullYear()} Deccan Rentals LLC · Dallas, TX 75201</p>
-            <p>📞 (214) 555-0100 · support@deccanrentals.com</p>
+            <p className="text-gray-500 text-xs">© {new Date().getFullYear()} Deccan Rentals LLC · Dallas, TX 75201</p>
+            <p className="text-gray-500 text-xs">📞 (214) 555-0100 · support@deccanrentals.com</p>
           </div>
         </footer>
 
         {/* Reservation Dialog */}
         <Dialog open={showReservationForm} onOpenChange={setShowReservationForm}>
-          <DialogContent className="bg-slate-900 border border-slate-700 text-white max-w-lg w-[95vw] max-h-[90vh] overflow-y-auto">
+          <DialogContent className="bg-white border border-gray-200 text-gray-800 max-w-lg w-[95vw] max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="text-white text-xl">Reserve Your Car</DialogTitle>
-              <DialogDescription className="text-slate-400">
+              <DialogTitle className="text-gray-800 text-xl font-bold">Reserve Your Car</DialogTitle>
+              <DialogDescription className="text-gray-500">
                 {selectedCar && (
                   <span className="flex items-center gap-2 mt-1">
-                    <span className="text-amber-400 font-semibold">{selectedCar.name}</span>
+                    <span className="font-semibold text-gray-700">{selectedCar.name}</span>
                     <span>·</span>
-                    <span className="text-amber-400 font-bold">${selectedCar.price}/month</span>
+                    <span className="font-bold text-gray-800">${selectedCar.price}/month</span>
                   </span>
                 )}
               </DialogDescription>
@@ -1230,37 +1148,37 @@ export default function App() {
               <div className="space-y-4 mt-2">
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <Label className="text-slate-400 text-xs">Full Name</Label>
-                    <Input name="customerName" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="John Smith" />
+                    <label className="text-xs font-semibold text-gray-500 block mb-1">Full Name</label>
+                    <Input name="customerName" required className="border-gray-300 text-gray-800 mt-1" placeholder="John Smith" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-slate-400 text-xs">Email</Label>
-                      <Input name="email" type="email" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="john@example.com" />
+                      <label className="text-xs font-semibold text-gray-500 block mb-1">Email</label>
+                      <Input name="email" type="email" required className="border-gray-300 text-gray-800 mt-1" placeholder="john@example.com" />
                     </div>
                     <div>
-                      <Label className="text-slate-400 text-xs">Phone</Label>
-                      <Input name="phone" required className="bg-slate-800 border-slate-700 text-white mt-1" placeholder="(214) 555-0000" />
+                      <label className="text-xs font-semibold text-gray-500 block mb-1">Phone</label>
+                      <Input name="phone" required className="border-gray-300 text-gray-800 mt-1" placeholder="(214) 555-0000" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-slate-400 text-xs">Start Date</Label>
-                      <Input name="startDate" type="date" defaultValue={startDate} min={new Date().toISOString().split('T')[0]} required className="bg-slate-800 border-slate-700 text-white mt-1" />
+                      <label className="text-xs font-semibold text-gray-500 block mb-1">Start Date</label>
+                      <Input name="startDate" type="date" defaultValue={startDate} min={new Date().toISOString().split('T')[0]} required className="border-gray-300 text-gray-800 mt-1" />
                     </div>
                     <div>
-                      <Label className="text-slate-400 text-xs">End Date</Label>
-                      <Input name="endDate" type="date" defaultValue={endDate} min={startDate || new Date().toISOString().split('T')[0]} required className="bg-slate-800 border-slate-700 text-white mt-1" />
+                      <label className="text-xs font-semibold text-gray-500 block mb-1">End Date</label>
+                      <Input name="endDate" type="date" defaultValue={endDate} min={startDate || new Date().toISOString().split('T')[0]} required className="border-gray-300 text-gray-800 mt-1" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-slate-400 text-xs">Message (Optional)</Label>
-                    <Textarea name="message" className="bg-slate-800 border-slate-700 text-white mt-1 resize-none" rows={3} placeholder="Any specific requirements..." />
+                    <label className="text-xs font-semibold text-gray-500 block mb-1">Message (Optional)</label>
+                    <Textarea name="message" className="border-gray-300 text-gray-800 mt-1 resize-none" rows={3} placeholder="Any specific requirements..." />
                   </div>
                 </div>
-                <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5">
+                <button type="submit" className="w-full text-black font-bold py-3 rounded text-sm transition-all hover:opacity-90" style={{backgroundColor: '#FACC15'}}>
                   Submit Reservation Request
-                </Button>
+                </button>
               </div>
             </form>
           </DialogContent>
@@ -1329,12 +1247,12 @@ export default function App() {
 
   // Admin Dashboard View
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="dark min-h-screen bg-slate-950 text-slate-100">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="bg-slate-900 border-b border-slate-800 shadow">
         <div className="container mx-auto px-4 py-3 sm:py-4 flex justify-between items-center">
-          <h1 className="text-lg sm:text-2xl font-bold text-gray-800">Deccan Rentals Admin</h1>
-          <Button onClick={handleLogout} variant="outline" size="sm">
+          <h1 className="text-lg sm:text-2xl font-bold text-white">Deccan Rentals Admin</h1>
+          <Button onClick={handleLogout} variant="outline" size="sm" className="border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800">
             <LogOut className="mr-1 sm:mr-2 h-4 w-4" /> <span className="hidden sm:inline">Logout</span>
           </Button>
         </div>
@@ -1343,58 +1261,58 @@ export default function App() {
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4 mb-6 sm:mb-8">
-          <Card className="border-l-4 border-l-gray-400">
+          <Card className="border-l-4 border-l-slate-500 bg-slate-900 border-slate-800">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-500 font-medium">Total Cars</span>
-                <Car className="h-4 w-4 text-gray-400" />
+                <span className="text-xs text-slate-400 font-medium">Total Cars</span>
+                <Car className="h-4 w-4 text-slate-500" />
               </div>
-              <p className="text-2xl sm:text-3xl font-bold">{stats.totalCars || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-white">{stats.totalCars || 0}</p>
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-green-500">
+          <Card className="border-l-4 border-l-green-500 bg-slate-900 border-slate-800">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-500 font-medium">Available</span>
-                <Check className="h-4 w-4 text-green-500" />
+                <span className="text-xs text-slate-400 font-medium">Available</span>
+                <Check className="h-4 w-4 text-green-400" />
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-green-600">{stats.availableCars || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-green-400">{stats.availableCars || 0}</p>
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-blue-500">
+          <Card className="border-l-4 border-l-blue-500 bg-slate-900 border-slate-800">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-500 font-medium">Rented</span>
-                <Settings2 className="h-4 w-4 text-blue-500" />
+                <span className="text-xs text-slate-400 font-medium">Rented</span>
+                <Settings2 className="h-4 w-4 text-blue-400" />
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-blue-600">{stats.rentedCars || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-blue-400">{stats.rentedCars || 0}</p>
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-orange-500">
+          <Card className="border-l-4 border-l-orange-500 bg-slate-900 border-slate-800">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-500 font-medium">Pending Reservations</span>
-                <Calendar className="h-4 w-4 text-orange-500" />
+                <span className="text-xs text-slate-400 font-medium">Pending Reservations</span>
+                <Calendar className="h-4 w-4 text-orange-400" />
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-orange-600">{stats.pendingReservations || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-orange-400">{stats.pendingReservations || 0}</p>
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-purple-500">
+          <Card className="border-l-4 border-l-purple-500 bg-slate-900 border-slate-800">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-500 font-medium">Active Rentals</span>
-                <Users className="h-4 w-4 text-purple-500" />
+                <span className="text-xs text-slate-400 font-medium">Active Rentals</span>
+                <Users className="h-4 w-4 text-purple-400" />
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-purple-600">{stats.activeRentals || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-purple-400">{stats.activeRentals || 0}</p>
             </CardContent>
           </Card>
-          <Card className="border-l-4 border-l-red-500">
+          <Card className="border-l-4 border-l-red-500 bg-slate-900 border-slate-800">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-500 font-medium">Due Payments</span>
-                <DollarSign className="h-4 w-4 text-red-500" />
+                <span className="text-xs text-slate-400 font-medium">Due Payments</span>
+                <DollarSign className="h-4 w-4 text-red-400" />
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-red-600">{stats.pendingPayments || 0}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-red-400">{stats.pendingPayments || 0}</p>
             </CardContent>
           </Card>
         </div>
