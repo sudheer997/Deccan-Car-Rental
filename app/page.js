@@ -827,7 +827,7 @@ export default function App() {
       <div className="min-h-screen bg-white text-gray-800" style={{fontFamily: "'Open Sans', 'Inter', sans-serif"}}>
 
         {/* Top Bar */}
-        <div style={{backgroundColor: '#FACC15'}} className="text-black">
+        <div style={{backgroundColor: '#006F97'}} className="text-white">
           <div className="max-w-6xl mx-auto px-4 py-2 flex justify-between items-center text-xs font-semibold">
             <span className="hidden sm:inline">📍 Dallas, Texas — Serving DFW and surrounding areas</span>
             <span className="sm:hidden">📍 Dallas, TX</span>
@@ -839,8 +839,8 @@ export default function App() {
         <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
           <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#FACC15'}}>
-                <Car className="h-5 w-5 text-black" />
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#006F97'}}>
+                <Car className="h-5 w-5 text-white" />
               </div>
               <div>
                 <span className="text-lg font-bold tracking-tight text-gray-900">Deccan Rentals</span>
@@ -850,7 +850,7 @@ export default function App() {
             <div className="flex items-center gap-4 sm:gap-6">
               <a href="#fleet" className="hidden md:inline text-sm text-gray-500 hover:text-gray-800 transition-colors font-medium">Our Fleet</a>
               <a href="#why-us" className="hidden md:inline text-sm text-gray-500 hover:text-gray-800 transition-colors font-medium">Why Us</a>
-              <a href="#search" className="hidden sm:inline text-sm font-semibold text-black px-4 py-2 rounded transition-all" style={{backgroundColor: '#FACC15'}}>
+              <a href="#search" className="hidden sm:inline text-sm font-semibold text-white px-4 py-2 rounded transition-all" style={{backgroundColor: '#006F97'}}>
                 Check Availability
               </a>
               <button
@@ -870,7 +870,7 @@ export default function App() {
             alt="Car rental hero"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0" style={{background: 'linear-gradient(135deg, rgba(250,204,21,0.82) 0%, rgba(17,17,17,0.78) 100%)'}} />
+          <div className="absolute inset-0" style={{background: 'linear-gradient(135deg, rgba(0,111,151,0.88) 0%, rgba(0,50,80,0.80) 100%)'}} />
           <div className="relative max-w-6xl mx-auto px-4 py-16 sm:py-24 flex flex-col items-center text-center text-white">
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -883,7 +883,7 @@ export default function App() {
               Flexible month-to-month terms. No hidden fees. Free maintenance included.
             </p>
             <div className="flex gap-3">
-              <a href="#search" className="font-bold px-6 py-3 rounded text-sm transition-all shadow-lg" style={{backgroundColor: '#FACC15', color: '#111111'}}>
+              <a href="#search" className="font-bold px-6 py-3 rounded text-sm transition-all shadow-lg" style={{backgroundColor: '#006F97', color: '#ffffff'}}>
                 Browse Fleet
               </a>
               <a href="#why-us" className="border-2 border-white/60 text-white font-semibold px-6 py-3 rounded text-sm hover:bg-white/10 transition-all">
@@ -910,7 +910,7 @@ export default function App() {
         {/* Search / Availability Bar */}
         <div id="search" className="bg-gray-50 border-y border-gray-200">
           <div className="max-w-6xl mx-auto px-4 py-8">
-            <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{color: '#FACC15'}}>Check Availability</p>
+            <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{color: '#006F97'}}>Check Availability</p>
             <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
               <div className="flex-1">
                 <label className="text-xs text-gray-500 font-semibold mb-1.5 block">Pickup Date</label>
@@ -963,8 +963,8 @@ export default function App() {
                 <button
                   onClick={checkAvailability}
                   disabled={!startDate || !endDate}
-                  className="flex-1 sm:flex-none h-11 px-8 rounded font-bold text-sm text-black transition-all disabled:opacity-50"
-                  style={{backgroundColor: '#FACC15'}}
+                  className="flex-1 sm:flex-none h-11 px-8 rounded font-bold text-sm text-white transition-all disabled:opacity-50"
+                  style={{backgroundColor: '#006F97'}}
                 >
                   Search
                 </button>
@@ -980,7 +980,7 @@ export default function App() {
             </div>
             {startDate && endDate && (
               <p className="mt-3 text-xs text-gray-500">
-                Showing <span className="font-bold" style={{color: '#FACC15'}}>{displayCars.length} cars</span> available · {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days rental period
+                Showing <span className="font-bold" style={{color: '#006F97'}}>{displayCars.length} cars</span> available · {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days rental period
               </p>
             )}
           </div>
@@ -991,7 +991,7 @@ export default function App() {
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-xs uppercase tracking-widest font-bold mb-1" style={{color: '#FACC15'}}>Our Fleet</p>
+                <p className="text-xs uppercase tracking-widest font-bold mb-1" style={{color: '#006F97'}}>Our Fleet</p>
                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
                   {startDate && endDate ? `${displayCars.length} Cars Available` : 'Available Vehicles'}
                 </h2>
@@ -1023,12 +1023,12 @@ export default function App() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                       <div className="absolute top-3 left-3">
-                        <span className="text-xs font-bold px-2.5 py-1 rounded shadow-sm" style={{backgroundColor: '#FACC15', color: '#111111'}}>
+                        <span className="text-xs font-bold px-2.5 py-1 rounded shadow-sm" style={{backgroundColor: '#006F97', color: '#ffffff'}}>
                           {car.vehicleType || 'Car'}
                         </span>
                       </div>
                       <div className="absolute bottom-3 right-3">
-                        <span className="text-black text-sm font-extrabold px-3 py-1 rounded shadow-lg" style={{backgroundColor: '#FACC15'}}>
+                        <span className="text-white text-sm font-extrabold px-3 py-1 rounded shadow-lg" style={{backgroundColor: '#006F97'}}>
                           ${car.price}<span className="text-xs font-semibold">/mo</span>
                         </span>
                       </div>
@@ -1069,8 +1069,8 @@ export default function App() {
 
                       <button
                         onClick={() => { setSelectedCar(car); setShowReservationForm(true); }}
-                        className="w-full text-black font-bold py-2.5 rounded text-sm transition-all duration-200 hover:opacity-90"
-                        style={{backgroundColor: '#FACC15'}}
+                        className="w-full text-white font-bold py-2.5 rounded text-sm transition-all duration-200 hover:opacity-90"
+                        style={{backgroundColor: '#006F97'}}
                       >
                         Reserve This Car
                       </button>
@@ -1085,7 +1085,7 @@ export default function App() {
         {/* Why Us */}
         <div id="why-us" className="bg-gray-50 border-t border-gray-200 py-12 sm:py-16">
           <div className="max-w-6xl mx-auto px-4 text-center">
-            <p className="text-xs uppercase tracking-widest font-bold mb-2" style={{color: '#FACC15'}}>Why Deccan Rentals</p>
+            <p className="text-xs uppercase tracking-widest font-bold mb-2" style={{color: '#006F97'}}>Why Deccan Rentals</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-8 sm:mb-12">Everything you need, nothing you don't</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
@@ -1104,11 +1104,11 @@ export default function App() {
         </div>
 
         {/* Footer */}
-        <footer className="border-t border-gray-200 py-8" style={{backgroundColor: '#111111'}}>
+        <footer className="border-t border-gray-200 py-8" style={{backgroundColor: '#222222'}}>
           <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-center md:text-left">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded flex items-center justify-center" style={{backgroundColor: '#FACC15'}}>
-                <Car className="h-4 w-4 text-black" />
+              <div className="w-7 h-7 rounded flex items-center justify-center" style={{backgroundColor: '#006F97'}}>
+                <Car className="h-4 w-4 text-white" />
               </div>
               <span className="font-bold text-white">Deccan Rentals</span>
             </div>
@@ -1176,7 +1176,7 @@ export default function App() {
                     <Textarea name="message" className="border-gray-300 text-gray-800 mt-1 resize-none" rows={3} placeholder="Any specific requirements..." />
                   </div>
                 </div>
-                <button type="submit" className="w-full text-black font-bold py-3 rounded text-sm transition-all hover:opacity-90" style={{backgroundColor: '#FACC15'}}>
+                <button type="submit" className="w-full text-white font-bold py-3 rounded text-sm transition-all hover:opacity-90" style={{backgroundColor: '#006F97'}}>
                   Submit Reservation Request
                 </button>
               </div>
