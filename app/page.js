@@ -862,18 +862,18 @@ export default function App() {
       searchBtn:   { bg: '#f59e0b', text: '#0f172a' },
       searchClear: 'border border-slate-700 text-slate-400 hover:bg-slate-800',
       searchCount: 'text-amber-400',
-      fleetBg:     'bg-slate-900',
-      fleetAccent: 'text-amber-500',
+      fleetBg:     'bg-slate-950',
+      fleetAccent: 'text-amber-400',
       fleetTitle:  'text-white',
-      fleetSub:    'text-slate-500',
-      card:        'bg-slate-800 border border-slate-700 hover:border-amber-500/60 hover:shadow-lg hover:shadow-amber-500/10',
-      cardBadgeBg: '#1e293b', cardBadgeText: '#f59e0b', cardBadgeBorder: '1px solid rgba(245,158,11,0.3)',
+      fleetSub:    'text-slate-400',
+      card:        'bg-white border-0 shadow-lg hover:shadow-2xl hover:scale-[1.02]',
+      cardBadgeBg: '#f59e0b', cardBadgeText: '#0f172a', cardBadgeBorder: 'none',
       cardPriceBg: '#f59e0b', cardPriceText: '#0f172a',
-      cardTitle:   'text-white',
-      cardSub:     'text-slate-400',
-      specBox:     'bg-slate-700 text-slate-300',
-      featTag:     'bg-slate-700 text-slate-300',
-      cardBtn:     'bg-slate-700 hover:bg-amber-500 hover:text-slate-900 text-white border border-slate-600 hover:border-amber-500',
+      cardTitle:   'text-gray-900',
+      cardSub:     'text-gray-500',
+      specBox:     'bg-gray-100 text-gray-600',
+      featTag:     'bg-gray-100 text-gray-500',
+      cardBtn:     'text-white font-bold hover:opacity-90',
       whyBg:       'bg-slate-900 border-t border-slate-800',
       whyAccent:   'text-amber-500',
       whyTitle:    'text-white',
@@ -1205,7 +1205,7 @@ export default function App() {
                       <button
                         onClick={() => { setSelectedCar(car); setShowReservationForm(true); }}
                         className={`w-full py-2.5 rounded text-sm transition-all duration-200 ${t.cardBtn}`}
-                        style={isDark ? {} : {backgroundColor: '#006F97'}}
+                        style={isDark ? {backgroundColor: '#f59e0b', color: '#0f172a'} : {backgroundColor: '#006F97'}}
                       >
                         Reserve This Car
                       </button>
