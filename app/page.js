@@ -55,6 +55,7 @@ export default function App() {
   const [maintenanceView, setMaintenanceView] = useState('schedule'); // 'schedule' or 'repairs'
   const [financialAnalytics, setFinancialAnalytics] = useState([]);
   const [excelUploading, setExcelUploading] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -63,6 +64,8 @@ export default function App() {
       setToken(savedToken);
       setIsAdmin(true);
     }
+    const savedTheme = localStorage.getItem('siteTheme');
+    if (savedTheme === 'dark') setIsDark(true);
     fetchCars();
     // Auto-check availability for default dates (today → +30 days)
     const t = new Date();
@@ -823,11 +826,131 @@ export default function App() {
     const displayCars = startDate && endDate
       ? (availableCars.length > 0 ? availableCars : cars.filter(car => car.status === 'available'))
       : cars.filter(car => car.status === 'available');
+
+    const toggleTheme = () => {
+      const next = !isDark;
+      setIsDark(next);
+      localStorage.setItem('siteTheme', next ? 'dark' : 'light');
+    };
+
+    // Light = blue/white (#006F97). Dark = slate/amber (production).
+    const t = isDark ? {
+      page:        'min-h-screen bg-slate-950 text-white',
+      topbar:      { bg: '#0f172a', text: 'text-amber-400', textColor: '#f59e0b' },
+      nav:         'bg-slate-900/95 backdrop-blur border-b border-slate-800',
+      navBrand:    'text-white',
+      navLinks:    'text-slate-400 hover:text-white',
+      navCta:      'bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold',
+      navCtaStyle: {},
+      logoBox:     'bg-amber-500',
+      logoIcon:    'text-slate-900',
+      heroBg:      'relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900',
+      heroOverlay: null,
+      heroImg:     'https://images.unsplash.com/photo-1534093607318-f025413f49cb?w=1600&q=80',
+      heroImgOpacity: 'opacity-20',
+      heroBadge:   'bg-amber-500/10 border border-amber-500/30 text-amber-400',
+      heroDot:     'bg-amber-400',
+      heroH1accent:'text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500',
+      heroText:    'text-slate-400',
+      heroBtnPrimary:   'bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold',
+      heroBtnSecondary: 'bg-slate-700 hover:bg-slate-600 text-white font-semibold',
+      heroStat:    'text-white',
+      heroStatSub: 'text-slate-500',
+      searchBg:    'bg-slate-900 border-b border-slate-800',
+      searchLabel: 'text-slate-400',
+      searchInput: 'bg-slate-800 border border-slate-700 text-white',
+      searchBtn:   { bg: '#f59e0b', text: '#0f172a' },
+      searchClear: 'border border-slate-700 text-slate-400 hover:bg-slate-800',
+      searchCount: 'text-amber-400',
+      fleetBg:     'bg-slate-950',
+      fleetAccent: 'text-amber-500',
+      fleetTitle:  'text-white',
+      fleetSub:    'text-slate-500',
+      card:        'bg-slate-900 border border-slate-800 hover:border-amber-500/50 hover:shadow-amber-500/5',
+      cardBadgeBg: '#1e293b', cardBadgeText: '#f59e0b', cardBadgeBorder: '1px solid rgba(245,158,11,0.3)',
+      cardPriceBg: '#f59e0b', cardPriceText: '#0f172a',
+      cardTitle:   'text-white',
+      cardSub:     'text-slate-500',
+      specBox:     'bg-slate-800 text-slate-400',
+      featTag:     'bg-slate-800 text-slate-400',
+      cardBtn:     'bg-slate-800 hover:bg-amber-500 hover:text-slate-900 text-white border border-slate-700 hover:border-amber-500',
+      whyBg:       'bg-slate-900 border-t border-slate-800',
+      whyAccent:   'text-amber-500',
+      whyTitle:    'text-white',
+      whyCard:     'bg-slate-800/50 border border-slate-700/50 hover:border-amber-500/30',
+      whyCardTitle:'text-white',
+      whyCardText: 'text-slate-500',
+      footerBg:    '#0f172a',
+      footerText:  'text-slate-600',
+      footerBrand: 'text-slate-400',
+      dialogBg:    'bg-slate-900 border border-slate-700 text-white',
+      dialogTitle: 'text-white',
+      dialogDesc:  'text-slate-400',
+      dialogInput: 'bg-slate-800 border-slate-700 text-white',
+      dialogLabel: 'text-slate-400',
+      dialogCarName: 'text-amber-400',
+    } : {
+      page:        'min-h-screen bg-white text-gray-800',
+      topbar:      { bg: '#006F97', text: 'text-white', textColor: '#ffffff' },
+      nav:         'bg-white shadow-sm border-b border-gray-100',
+      navBrand:    'text-gray-900',
+      navLinks:    'text-gray-500 hover:text-gray-800',
+      navCta:      'text-white font-semibold',
+      navCtaStyle: { backgroundColor: '#006F97' },
+      logoBox:     '',
+      logoIcon:    'text-white',
+      heroBg:      'relative overflow-hidden',
+      heroOverlay: 'linear-gradient(135deg, rgba(0,111,151,0.88) 0%, rgba(0,50,80,0.80) 100%)',
+      heroImg:     'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600&q=80',
+      heroImgOpacity: 'opacity-100',
+      heroBadge:   'bg-white/10 border border-white/20 text-white',
+      heroDot:     'bg-white',
+      heroH1accent:'',
+      heroText:    'text-white/80',
+      heroBtnPrimary:   'font-bold text-white',
+      heroBtnSecondary: 'border-2 border-white/60 text-white font-semibold hover:bg-white/10',
+      heroStat:    'text-white',
+      heroStatSub: 'text-white/60',
+      searchBg:    'bg-gray-50 border-y border-gray-200',
+      searchLabel: 'text-gray-500',
+      searchInput: 'border border-gray-300 text-gray-800 bg-white',
+      searchBtn:   { bg: '#006F97', text: '#ffffff' },
+      searchClear: 'border border-gray-300 text-gray-500 hover:bg-gray-100',
+      searchCount: '#006F97',
+      fleetBg:     'bg-white',
+      fleetAccent: '',
+      fleetTitle:  'text-gray-800',
+      fleetSub:    'text-gray-400',
+      card:        'bg-white border border-gray-200 hover:shadow-xl',
+      cardBadgeBg: '#006F97', cardBadgeText: '#ffffff', cardBadgeBorder: 'none',
+      cardPriceBg: '#006F97', cardPriceText: '#ffffff',
+      cardTitle:   'text-gray-800',
+      cardSub:     'text-gray-400',
+      specBox:     'bg-gray-50 border border-gray-100 text-gray-400',
+      featTag:     'bg-gray-100 text-gray-500',
+      cardBtn:     'text-white font-bold hover:opacity-90',
+      whyBg:       'bg-gray-50 border-t border-gray-200',
+      whyAccent:   '',
+      whyTitle:    'text-gray-800',
+      whyCard:     'bg-white border border-gray-200 hover:border-blue-200 hover:shadow-md',
+      whyCardTitle:'text-gray-800',
+      whyCardText: 'text-gray-500',
+      footerBg:    '#222222',
+      footerText:  'text-gray-500',
+      footerBrand: 'text-white',
+      dialogBg:    'bg-white border border-gray-200 text-gray-800',
+      dialogTitle: 'text-gray-800',
+      dialogDesc:  'text-gray-500',
+      dialogInput: 'border-gray-300 text-gray-800',
+      dialogLabel: 'text-gray-500',
+      dialogCarName: 'text-gray-700',
+    };
+
     return (
-      <div className="min-h-screen bg-white text-gray-800" style={{fontFamily: "'Open Sans', 'Inter', sans-serif"}}>
+      <div className={t.page} style={{fontFamily: "'Open Sans', 'Inter', sans-serif"}}>
 
         {/* Top Bar */}
-        <div style={{backgroundColor: '#006F97'}} className="text-white">
+        <div style={{backgroundColor: t.topbar.bg}} className={t.topbar.text}>
           <div className="max-w-6xl mx-auto px-4 py-2 flex justify-between items-center text-xs font-semibold">
             <span className="hidden sm:inline">📍 Dallas, Texas — Serving DFW and surrounding areas</span>
             <span className="sm:hidden">📍 Dallas, TX</span>
@@ -836,26 +959,33 @@ export default function App() {
         </div>
 
         {/* Navbar */}
-        <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
+        <nav className={`sticky top-0 z-50 ${t.nav}`}>
           <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: '#006F97'}}>
-                <Car className="h-5 w-5 text-white" />
+              <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${t.logoBox}`} style={isDark ? {} : {backgroundColor: '#006F97'}}>
+                <Car className={`h-5 w-5 ${t.logoIcon}`} />
               </div>
               <div>
-                <span className="text-lg font-bold tracking-tight text-gray-900">Deccan Rentals</span>
+                <span className={`text-lg font-bold tracking-tight ${t.navBrand}`}>Deccan Rentals</span>
                 <span className="hidden sm:inline text-xs text-gray-400 ml-2">Dallas, TX</span>
               </div>
             </div>
             <div className="flex items-center gap-4 sm:gap-6">
-              <a href="#fleet" className="hidden md:inline text-sm text-gray-500 hover:text-gray-800 transition-colors font-medium">Our Fleet</a>
-              <a href="#why-us" className="hidden md:inline text-sm text-gray-500 hover:text-gray-800 transition-colors font-medium">Why Us</a>
-              <a href="#search" className="hidden sm:inline text-sm font-semibold text-white px-4 py-2 rounded transition-all" style={{backgroundColor: '#006F97'}}>
+              <a href="#fleet" className={`hidden md:inline text-sm transition-colors font-medium ${t.navLinks}`}>Our Fleet</a>
+              <a href="#why-us" className={`hidden md:inline text-sm transition-colors font-medium ${t.navLinks}`}>Why Us</a>
+              <a href="#search" className={`hidden sm:inline text-sm px-4 py-2 rounded transition-all ${t.navCta}`} style={t.navCtaStyle}>
                 Check Availability
               </a>
               <button
+                onClick={toggleTheme}
+                className={`text-xs px-2 py-1 rounded border transition-colors ${isDark ? 'border-slate-700 text-slate-400 hover:text-white hover:border-slate-500' : 'border-gray-200 text-gray-400 hover:text-gray-700 hover:border-gray-400'}`}
+                title={isDark ? 'Switch to Light' : 'Switch to Dark'}
+              >
+                {isDark ? '☀ Light' : '🌙 Dark'}
+              </button>
+              <button
                 onClick={() => setIsAdmin(true)}
-                className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                className={`text-xs transition-colors ${isDark ? 'text-slate-500 hover:text-white' : 'text-gray-400 hover:text-gray-600'}`}
               >
                 Admin
               </button>
@@ -864,34 +994,52 @@ export default function App() {
         </nav>
 
         {/* Hero */}
-        <div className="relative overflow-hidden" style={{minHeight: '480px'}}>
+        <div className={t.heroBg} style={{minHeight: '480px'}}>
           <img
-            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600&q=80"
+            src={t.heroImg}
             alt="Car rental hero"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className={`absolute inset-0 w-full h-full object-cover object-center ${t.heroImgOpacity}`}
           />
-          <div className="absolute inset-0" style={{background: 'linear-gradient(135deg, rgba(0,111,151,0.88) 0%, rgba(0,50,80,0.80) 100%)'}} />
+          {t.heroOverlay
+            ? <div className="absolute inset-0" style={{background: t.heroOverlay}} />
+            : <>
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/50 to-slate-900/90" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent" />
+              </>
+          }
+          {/* Moving cars (dark mode only) */}
+          {isDark && (
+            <div className="hidden sm:block absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute bottom-0 left-0 right-0 h-[120px] bg-gradient-to-t from-slate-950/80 to-transparent" />
+              <div className="absolute bottom-[52px] left-0 right-0 h-px bg-amber-500/20" />
+              <div className="car-drive-r1 absolute bottom-[14px]"><svg width="180" height="36" viewBox="0 0 180 36" fill="none"><rect x="20" y="16" width="140" height="16" rx="4" fill="#f59e0b" fillOpacity="0.7"/><rect x="40" y="6" width="80" height="14" rx="3" fill="#fbbf24" fillOpacity="0.6"/><circle cx="48" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/><circle cx="132" cy="33" r="8" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/><rect x="148" y="20" width="16" height="6" rx="1" fill="#fef3c7" fillOpacity="0.9"/><rect x="16" y="22" width="8" height="4" rx="1" fill="#ef4444" fillOpacity="0.7"/></svg></div>
+              <div className="car-drive-r3 absolute bottom-[14px]"><svg width="200" height="36" viewBox="0 0 200 36" fill="none"><rect x="10" y="15" width="175" height="18" rx="5" fill="#78350f" fillOpacity="0.75"/><rect x="35" y="5" width="95" height="14" rx="3" fill="#92400e" fillOpacity="0.65"/><circle cx="50" cy="34" r="9" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/><circle cx="150" cy="34" r="9" fill="#1e293b" stroke="#94a3b8" strokeWidth="2"/><rect x="178" y="19" width="18" height="7" rx="1" fill="#fef3c7" fillOpacity="0.9"/></svg></div>
+              <div className="car-drive-l1 absolute bottom-[60px]"><svg width="160" height="30" viewBox="0 0 160 30" fill="none" opacity="0.45"><rect x="14" y="12" width="130" height="14" rx="3" fill="#1d4ed8" fillOpacity="0.8"/><rect x="30" y="5" width="72" height="10" rx="2" fill="#3b82f6" fillOpacity="0.7"/><circle cx="38" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/><circle cx="122" cy="27" r="6" fill="#1e293b" stroke="#94a3b8" strokeWidth="1.5"/><rect x="133" y="15" width="12" height="5" rx="1" fill="#fef3c7" fillOpacity="0.8"/></svg></div>
+            </div>
+          )}
           <div className="relative max-w-6xl mx-auto px-4 py-16 sm:py-24 flex flex-col items-center text-center text-white">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            <div className={`inline-flex items-center gap-2 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 ${t.heroBadge}`}>
+              <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${t.heroDot}`} />
               {cars.filter(c => c.status === 'available').length} Vehicles Available in Dallas
             </div>
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight tracking-tight max-w-3xl">
-              Premium Monthly<br />Car Rentals in Dallas
+              Premium Monthly<br />
+              {isDark
+                ? <span className={t.heroH1accent}>Car Rentals in Dallas</span>
+                : 'Car Rentals in Dallas'
+              }
             </h1>
-            <p className="text-sm sm:text-lg text-white/80 mb-8 max-w-xl">
+            <p className={`text-sm sm:text-lg mb-8 max-w-xl ${t.heroText}`}>
               Flexible month-to-month terms. No hidden fees. Free maintenance included.
             </p>
             <div className="flex gap-3">
-              <a href="#search" className="font-bold px-6 py-3 rounded text-sm transition-all shadow-lg" style={{backgroundColor: '#006F97', color: '#ffffff'}}>
+              <a href="#search" className={`px-6 py-3 rounded text-sm transition-all shadow-lg ${t.heroBtnPrimary}`} style={isDark ? {} : {backgroundColor: '#006F97'}}>
                 Browse Fleet
               </a>
-              <a href="#why-us" className="border-2 border-white/60 text-white font-semibold px-6 py-3 rounded text-sm hover:bg-white/10 transition-all">
+              <a href="#why-us" className={`px-6 py-3 rounded text-sm transition-all ${t.heroBtnSecondary}`}>
                 Learn More
               </a>
             </div>
-
-            {/* Stats bar */}
             <div className="mt-12 sm:mt-16 flex gap-8 sm:gap-16 text-center border-t border-white/20 pt-8 w-full max-w-md mx-auto justify-center">
               {[
                 { value: `${cars.filter(c => c.status === 'available').length}+`, label: 'Cars Available' },
@@ -899,8 +1047,8 @@ export default function App() {
                 { value: '24/7', label: 'Support' },
               ].map((stat, i) => (
                 <div key={i}>
-                  <p className="text-2xl sm:text-3xl font-extrabold">{stat.value}</p>
-                  <p className="text-xs text-white/60 mt-1 uppercase tracking-wide">{stat.label}</p>
+                  <p className={`text-2xl sm:text-3xl font-extrabold ${t.heroStat}`}>{stat.value}</p>
+                  <p className={`text-xs mt-1 uppercase tracking-wide ${t.heroStatSub}`}>{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -908,12 +1056,12 @@ export default function App() {
         </div>
 
         {/* Search / Availability Bar */}
-        <div id="search" className="bg-gray-50 border-y border-gray-200">
+        <div id="search" className={t.searchBg}>
           <div className="max-w-6xl mx-auto px-4 py-8">
-            <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{color: '#006F97'}}>Check Availability</p>
+            <p className={`text-xs uppercase tracking-widest font-bold mb-4 ${isDark ? 'text-amber-500' : ''}`} style={isDark ? {} : {color: '#006F97'}}>Check Availability</p>
             <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
               <div className="flex-1">
-                <label className="text-xs text-gray-500 font-semibold mb-1.5 block">Pickup Date</label>
+                <label className={`text-xs font-semibold mb-1.5 block ${t.searchLabel}`}>Pickup Date</label>
                 <input
                   type="date"
                   value={startDate}
@@ -928,12 +1076,11 @@ export default function App() {
                     }
                   }}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full border border-gray-300 rounded px-3 h-11 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:border-transparent"
-                  style={{'--tw-ring-color': '#006F97'}}
+                  className={`w-full rounded px-3 h-11 text-sm focus:outline-none ${t.searchInput}`}
                 />
               </div>
               <div className="flex-1">
-                <label className="text-xs text-gray-500 font-semibold mb-1.5 block">Return Date <span className="text-gray-400 font-normal">(min 30 days)</span></label>
+                <label className={`text-xs font-semibold mb-1.5 block ${t.searchLabel}`}>Return Date <span className="font-normal opacity-60">(min 30 days)</span></label>
                 <input
                   type="date"
                   value={endDate}
@@ -956,22 +1103,22 @@ export default function App() {
                     }
                   }}
                   min={startDate ? (() => { const d = new Date(startDate); d.setDate(d.getDate() + 30); return d.toISOString().split('T')[0]; })() : new Date().toISOString().split('T')[0]}
-                  className="w-full border border-gray-300 rounded px-3 h-11 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:border-transparent"
+                  className={`w-full rounded px-3 h-11 text-sm focus:outline-none ${t.searchInput}`}
                 />
               </div>
               <div className="flex gap-2 w-full sm:w-auto">
                 <button
                   onClick={checkAvailability}
                   disabled={!startDate || !endDate}
-                  className="flex-1 sm:flex-none h-11 px-8 rounded font-bold text-sm text-white transition-all disabled:opacity-50"
-                  style={{backgroundColor: '#006F97'}}
+                  className="flex-1 sm:flex-none h-11 px-8 rounded font-bold text-sm transition-all disabled:opacity-50"
+                  style={{backgroundColor: t.searchBtn.bg, color: t.searchBtn.text}}
                 >
                   Search
                 </button>
                 {(startDate || endDate) && (
                   <button
                     onClick={() => { setStartDate(''); setEndDate(''); setAvailableCars([]); }}
-                    className="h-11 px-4 rounded border border-gray-300 text-gray-500 text-sm hover:bg-gray-100 transition-all"
+                    className={`h-11 px-4 rounded text-sm transition-all ${t.searchClear}`}
                   >
                     Clear
                   </button>
@@ -979,98 +1126,86 @@ export default function App() {
               </div>
             </div>
             {startDate && endDate && (
-              <p className="mt-3 text-xs text-gray-500">
-                Showing <span className="font-bold" style={{color: '#006F97'}}>{displayCars.length} cars</span> available · {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days rental period
+              <p className={`mt-3 text-xs ${t.searchLabel}`}>
+                Showing <span className={`font-bold ${isDark ? t.searchCount : ''}`} style={isDark ? {} : {color: t.searchCount}}>{displayCars.length} cars</span> available · {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))} days rental period
               </p>
             )}
           </div>
         </div>
 
         {/* Fleet Section */}
-        <div id="fleet" className="bg-white py-10 sm:py-16">
+        <div id="fleet" className={`py-10 sm:py-16 ${t.fleetBg}`}>
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-xs uppercase tracking-widest font-bold mb-1" style={{color: '#006F97'}}>Our Fleet</p>
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+                <p className={`text-xs uppercase tracking-widest font-bold mb-1 ${t.fleetAccent}`} style={isDark ? {} : {color: '#006F97'}}>Our Fleet</p>
+                <h2 className={`text-2xl sm:text-3xl font-bold ${t.fleetTitle}`}>
                   {startDate && endDate ? `${displayCars.length} Cars Available` : 'Available Vehicles'}
                 </h2>
               </div>
-              <p className="text-sm text-gray-400 hidden md:block">Starting from $1,299/month</p>
+              <p className={`text-sm hidden md:block ${t.fleetSub}`}>Starting from $1,299/month</p>
             </div>
 
             {displayCars.length === 0 ? (
-              <div className="text-center py-20 text-gray-400">
+              <div className="text-center py-20">
                 <Car className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                <p className="text-lg font-medium text-gray-500">No cars available for the selected dates.</p>
-                <p className="text-sm mt-1">Try different dates or clear the search.</p>
+                <p className={`text-lg font-medium ${t.fleetSub}`}>No cars available for the selected dates.</p>
+                <p className={`text-sm mt-1 ${t.fleetSub}`}>Try different dates or clear the search.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 {displayCars.map((car) => (
-                  <div
-                    key={car._id}
-                    className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300"
-                    style={{'--hover-border': '#006F97'}}
-                  >
-                    {/* Image */}
+                  <div key={car._id} className={`group rounded-xl overflow-hidden transition-all duration-300 ${t.card}`}>
                     <div className="relative h-48 bg-gray-100 overflow-hidden">
                       <img
                         src={car.imageUrl}
                         alt={car.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${isDark ? 'opacity-80' : ''}`}
                         onError={(e) => { e.target.style.display = 'none'; }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                       <div className="absolute top-3 left-3">
-                        <span className="text-xs font-bold px-2.5 py-1 rounded shadow-sm" style={{backgroundColor: '#006F97', color: '#ffffff'}}>
+                        <span className="text-xs font-bold px-2.5 py-1 rounded shadow-sm" style={{backgroundColor: t.cardBadgeBg, color: t.cardBadgeText, border: t.cardBadgeBorder}}>
                           {car.vehicleType || 'Car'}
                         </span>
                       </div>
                       <div className="absolute bottom-3 right-3">
-                        <span className="text-white text-sm font-extrabold px-3 py-1 rounded shadow-lg" style={{backgroundColor: '#006F97'}}>
+                        <span className="text-sm font-extrabold px-3 py-1 rounded shadow-lg" style={{backgroundColor: t.cardPriceBg, color: t.cardPriceText}}>
                           ${car.price}<span className="text-xs font-semibold">/mo</span>
                         </span>
                       </div>
                     </div>
-
-                    {/* Content */}
                     <div className="p-5">
                       <div className="mb-3">
-                        <h3 className="text-base font-bold text-gray-800">{car.name}</h3>
-                        <p className="text-sm text-gray-400">{car.brand} · {car.model} · {car.transmission}</p>
+                        <h3 className={`text-base font-bold ${t.cardTitle}`}>{car.name}</h3>
+                        <p className={`text-sm ${t.cardSub}`}>{car.brand} · {car.model} · {car.transmission}</p>
                       </div>
-
-                      {/* Specs */}
                       <div className="grid grid-cols-3 gap-2 mb-4">
                         {[
                           { icon: <Armchair className="h-3.5 w-3.5" />, label: `${car.specs?.seats || 5} Seats` },
                           { icon: <Fuel className="h-3.5 w-3.5" />, label: car.specs?.fuel || 'Gasoline' },
                           { icon: <Gauge className="h-3.5 w-3.5" />, label: car.specs?.mileage || 'N/A' },
                         ].map((spec, i) => (
-                          <div key={i} className="flex flex-col items-center gap-1 bg-gray-50 border border-gray-100 rounded-lg py-2 px-1 text-gray-400">
+                          <div key={i} className={`flex flex-col items-center gap-1 rounded-lg py-2 px-1 ${t.specBox}`}>
                             {spec.icon}
-                            <span className="text-xs text-gray-500">{spec.label}</span>
+                            <span className="text-xs">{spec.label}</span>
                           </div>
                         ))}
                       </div>
-
-                      {/* Features */}
                       {car.features?.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 mb-4">
                           {car.features.slice(0, 3).map((f, i) => (
-                            <span key={i} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">{f}</span>
+                            <span key={i} className={`text-xs px-2 py-0.5 rounded ${t.featTag}`}>{f}</span>
                           ))}
                           {car.features.length > 3 && (
-                            <span className="text-xs bg-gray-100 text-gray-400 px-2 py-0.5 rounded">+{car.features.length - 3}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded ${t.featTag}`}>+{car.features.length - 3}</span>
                           )}
                         </div>
                       )}
-
                       <button
                         onClick={() => { setSelectedCar(car); setShowReservationForm(true); }}
-                        className="w-full text-white font-bold py-2.5 rounded text-sm transition-all duration-200 hover:opacity-90"
-                        style={{backgroundColor: '#006F97'}}
+                        className={`w-full py-2.5 rounded text-sm transition-all duration-200 ${t.cardBtn}`}
+                        style={isDark ? {} : {backgroundColor: '#006F97'}}
                       >
                         Reserve This Car
                       </button>
@@ -1083,20 +1218,20 @@ export default function App() {
         </div>
 
         {/* Why Us */}
-        <div id="why-us" className="bg-gray-50 border-t border-gray-200 py-12 sm:py-16">
+        <div id="why-us" className={`py-12 sm:py-16 ${t.whyBg}`}>
           <div className="max-w-6xl mx-auto px-4 text-center">
-            <p className="text-xs uppercase tracking-widest font-bold mb-2" style={{color: '#006F97'}}>Why Deccan Rentals</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-8 sm:mb-12">Everything you need, nothing you don't</h2>
+            <p className={`text-xs uppercase tracking-widest font-bold mb-2 ${t.whyAccent}`} style={isDark ? {} : {color: '#006F97'}}>Why Deccan Rentals</p>
+            <h2 className={`text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 ${t.whyTitle}`}>Everything you need, nothing you don't</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { icon: '💳', title: 'Flexible Billing', desc: 'Month-to-month rentals. No long-term lock-in. Cancel with 30-day notice.' },
                 { icon: '🔧', title: 'Free Maintenance', desc: 'All scheduled maintenance included. We keep your car in top shape.' },
                 { icon: '📞', title: '24/7 Support', desc: 'Roadside assistance and customer support any time, day or night.' },
               ].map((item, i) => (
-                <div key={i} className="bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-200 hover:shadow-md transition-all text-left">
+                <div key={i} className={`rounded-xl p-6 transition-all text-left ${t.whyCard}`}>
                   <div className="text-3xl mb-4">{item.icon}</div>
-                  <h3 className="text-gray-800 font-bold mb-2">{item.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                  <h3 className={`font-bold mb-2 ${t.whyCardTitle}`}>{item.title}</h3>
+                  <p className={`text-sm leading-relaxed ${t.whyCardText}`}>{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -1104,30 +1239,30 @@ export default function App() {
         </div>
 
         {/* Footer */}
-        <footer className="border-t border-gray-200 py-8" style={{backgroundColor: '#222222'}}>
+        <footer className="py-8" style={{backgroundColor: t.footerBg}}>
           <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-center md:text-left">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded flex items-center justify-center" style={{backgroundColor: '#006F97'}}>
-                <Car className="h-4 w-4 text-white" />
+              <div className="w-7 h-7 rounded flex items-center justify-center" style={{backgroundColor: isDark ? '#f59e0b' : '#006F97'}}>
+                <Car className={`h-4 w-4 ${isDark ? 'text-slate-900' : 'text-white'}`} />
               </div>
-              <span className="font-bold text-white">Deccan Rentals</span>
+              <span className={`font-bold ${t.footerBrand}`}>Deccan Rentals</span>
             </div>
-            <p className="text-gray-500 text-xs">© {new Date().getFullYear()} Deccan Rentals LLC · Dallas, TX 75201</p>
-            <p className="text-gray-500 text-xs">📞 (214) 555-0100 · support@deccanrentals.com</p>
+            <p className={`text-xs ${t.footerText}`}>© {new Date().getFullYear()} Deccan Rentals LLC · Dallas, TX 75201</p>
+            <p className={`text-xs ${t.footerText}`}>📞 (214) 555-0100 · support@deccanrentals.com</p>
           </div>
         </footer>
 
         {/* Reservation Dialog */}
         <Dialog open={showReservationForm} onOpenChange={setShowReservationForm}>
-          <DialogContent className="bg-white border border-gray-200 text-gray-800 max-w-lg w-[95vw] max-h-[90vh] overflow-y-auto">
+          <DialogContent className={`max-w-lg w-[95vw] max-h-[90vh] overflow-y-auto ${t.dialogBg}`}>
             <DialogHeader>
-              <DialogTitle className="text-gray-800 text-xl font-bold">Reserve Your Car</DialogTitle>
-              <DialogDescription className="text-gray-500">
+              <DialogTitle className={`text-xl font-bold ${t.dialogTitle}`}>Reserve Your Car</DialogTitle>
+              <DialogDescription className={t.dialogDesc}>
                 {selectedCar && (
                   <span className="flex items-center gap-2 mt-1">
-                    <span className="font-semibold text-gray-700">{selectedCar.name}</span>
+                    <span className={`font-semibold ${t.dialogCarName}`}>{selectedCar.name}</span>
                     <span>·</span>
-                    <span className="font-bold text-gray-800">${selectedCar.price}/month</span>
+                    <span className={`font-bold ${isDark ? 'text-amber-400' : 'text-gray-800'}`}>${selectedCar.price}/month</span>
                   </span>
                 )}
               </DialogDescription>
@@ -1148,35 +1283,35 @@ export default function App() {
               <div className="space-y-4 mt-2">
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <label className="text-xs font-semibold text-gray-500 block mb-1">Full Name</label>
-                    <Input name="customerName" required className="border-gray-300 text-gray-800 mt-1" placeholder="John Smith" />
+                    <label className={`text-xs font-semibold block mb-1 ${t.dialogLabel}`}>Full Name</label>
+                    <Input name="customerName" required className={`mt-1 ${t.dialogInput}`} placeholder="John Smith" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 block mb-1">Email</label>
-                      <Input name="email" type="email" required className="border-gray-300 text-gray-800 mt-1" placeholder="john@example.com" />
+                      <label className={`text-xs font-semibold block mb-1 ${t.dialogLabel}`}>Email</label>
+                      <Input name="email" type="email" required className={`mt-1 ${t.dialogInput}`} placeholder="john@example.com" />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 block mb-1">Phone</label>
-                      <Input name="phone" required className="border-gray-300 text-gray-800 mt-1" placeholder="(214) 555-0000" />
+                      <label className={`text-xs font-semibold block mb-1 ${t.dialogLabel}`}>Phone</label>
+                      <Input name="phone" required className={`mt-1 ${t.dialogInput}`} placeholder="(214) 555-0000" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 block mb-1">Start Date</label>
-                      <Input name="startDate" type="date" defaultValue={startDate} min={new Date().toISOString().split('T')[0]} required className="border-gray-300 text-gray-800 mt-1" />
+                      <label className={`text-xs font-semibold block mb-1 ${t.dialogLabel}`}>Start Date</label>
+                      <Input name="startDate" type="date" defaultValue={startDate} min={new Date().toISOString().split('T')[0]} required className={`mt-1 ${t.dialogInput}`} />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 block mb-1">End Date</label>
-                      <Input name="endDate" type="date" defaultValue={endDate} min={startDate || new Date().toISOString().split('T')[0]} required className="border-gray-300 text-gray-800 mt-1" />
+                      <label className={`text-xs font-semibold block mb-1 ${t.dialogLabel}`}>End Date</label>
+                      <Input name="endDate" type="date" defaultValue={endDate} min={startDate || new Date().toISOString().split('T')[0]} required className={`mt-1 ${t.dialogInput}`} />
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-gray-500 block mb-1">Message (Optional)</label>
-                    <Textarea name="message" className="border-gray-300 text-gray-800 mt-1 resize-none" rows={3} placeholder="Any specific requirements..." />
+                    <label className={`text-xs font-semibold block mb-1 ${t.dialogLabel}`}>Message (Optional)</label>
+                    <Textarea name="message" className={`mt-1 resize-none ${t.dialogInput}`} rows={3} placeholder="Any specific requirements..." />
                   </div>
                 </div>
-                <button type="submit" className="w-full text-white font-bold py-3 rounded text-sm transition-all hover:opacity-90" style={{backgroundColor: '#006F97'}}>
+                <button type="submit" className="w-full font-bold py-3 rounded text-sm transition-all hover:opacity-90" style={{backgroundColor: isDark ? '#f59e0b' : '#006F97', color: isDark ? '#0f172a' : '#ffffff'}}>
                   Submit Reservation Request
                 </button>
               </div>
